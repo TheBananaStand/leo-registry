@@ -38,11 +38,13 @@ def main() -> int:
 
     for pkg in registry.get("packages", []):
         name = pkg.get("name", "<unknown>")
-        # A package must DO something: either provide tools (mcp) or pages.
+        # A package must DO something: provide tools (mcp), be an app, or have pages.
+        desc = pkg.get("descriptor", {})
         has_mcp = "mcp" in pkg
-        has_pages = bool(pkg.get("descriptor", {}).get("pages"))
-        if not has_mcp and not has_pages:
-            errors.append(f"{name}: has neither an mcp server nor any pages — it would install but do nothing")
+        has_pages = bool(desc.get("pages"))
+        is_app = desc.get("kind") == "app" or "app" in desc
+        if not has_mcp and not has_pages and not is_app:
+            errors.append(f"{name}: has no mcp server, app, or pages — it would install but do nothing")
 
     if errors:
         print(f"registry.json INVALID ({len(errors)} problem(s)):\n", file=sys.stderr)

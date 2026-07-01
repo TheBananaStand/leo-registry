@@ -65,6 +65,59 @@ not by hiding this URL. Integrity is enforced per-bundle via `sha256` (see below
 
    Compute the hash: `sha256sum bundles/acme/ui.js`.
 
+### Entitlements (what the package is allowed to do)
+
+Every package declares the capabilities it needs. Leo shows these at install for
+the user to consent to, and the broker grants **exactly these and nothing more**
+— least privilege. This is what makes installing from a public catalog safe:
+"remote" means *scoped*, not just *elsewhere*.
+
+```jsonc
+"descriptor": {
+  "entitlements": {
+    "feed": true,                                  // may post to the feed
+    "push": false,                                 // may send push notifications
+    "settings_read": ["fal_api_key", "openai_api_key"],  // ONLY these keys
+    "network": ["api.fal.ai", "generativelanguage.googleapis.com"],
+    "storage_mb": 50
+  }
+}
+```
+
+Ask for the minimum. A package that omits `entitlements` asks for nothing.
+
+### App packages (`kind: "app"`)
+
+Some packages aren't a set of tools — they're a full app with their own backend
+and UI (their own storage, endpoints, screens). Those declare `kind: "app"` and
+an `app` block. Leo clones the repo, **builds a standalone binary on the host**
+(this does NOT rebuild Leo — it's a separate process), runs it as a subprocess
+with its own SQLite, and proxies `/p/<name>/*` to it.
+
+```jsonc
+{
+  "name": "brand-lab",
+  "label": "Brand Lab",
+  "description": "AI brand identity studio.",
+  "icon": "sparkles",
+  "descriptor": {
+    "kind": "app",
+    "app": {
+      "repo": "https://github.com/brandondek/leo-brand-lab",
+      "branch": "main",
+      "build": "cargo build --release",
+      "bin": "target/release/leo-brand-lab",
+      "port": 0
+    },
+    "entitlements": {
+      "settings_read": ["fal_api_key", "openai_api_key", "google_api_key"],
+      "network": ["api.fal.ai", "api.openai.com", "generativelanguage.googleapis.com"],
+      "storage_mb": 200
+    }
+  }
+}
+```
+
 4. Validate, then open a PR:
 
    ```bash

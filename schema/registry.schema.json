@@ -67,10 +67,52 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "kind": { "type": "string", "enum": ["tool", "app"] },
         "fields": { "type": "array", "items": { "$ref": "#/$defs/field" } },
         "pages": { "type": "array", "items": { "$ref": "#/$defs/page" } },
         "migrations": { "type": "array", "items": { "type": "string" } },
-        "mcp_server": { "type": "string" }
+        "mcp_server": { "type": "string" },
+        "entitlements": { "$ref": "#/$defs/entitlements" },
+        "app": { "$ref": "#/$defs/appspec" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "app" } }, "required": ["kind"] },
+          "then": { "required": ["app"] }
+        }
+      ]
+    },
+    "entitlements": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Capabilities the package needs, consented to at install. The broker grants exactly these — least privilege.",
+      "properties": {
+        "feed": { "type": "boolean", "description": "May post to the user's feed." },
+        "push": { "type": "boolean", "description": "May send push notifications." },
+        "settings_read": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Settings keys (e.g. API keys) the package may read — and only these."
+        },
+        "network": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Hostnames the package's process may reach."
+        },
+        "storage_mb": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "appspec": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "App package: a standalone binary built from git on the host and run as a subprocess (NOT linked into Leo).",
+      "required": ["repo", "bin"],
+      "properties": {
+        "repo": { "type": "string", "format": "uri" },
+        "branch": { "type": "string" },
+        "build": { "type": "string", "description": "Build command run in the clone (default: cargo build --release)." },
+        "bin": { "type": "string", "description": "Path to the built binary, relative to the clone root." },
+        "port": { "type": "integer", "minimum": 0, "description": "Fixed port, or 0 to assign a free one at spawn." }
       }
     },
     "field": {
