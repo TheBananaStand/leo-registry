@@ -22,6 +22,29 @@
         "pages": [],
         "migrations": []
       }
+    },
+    {
+      "name": "words-with-fam",
+      "label": "Words With Fam",
+      "description": "Play Words With Friends with your family — full 15×15 board, the real tile set and premium squares, dictionary-validated plays, blanks, swaps, and scoring.",
+      "icon": "puzzle-piece",
+      "version": "0.2.0",
+      "author": "scottraio",
+      "homepage": "https://github.com/scottraio/leo-words-with-fam",
+      "descriptor": {
+        "kind": "app",
+        "app": {
+          "repo": "https://github.com/scottraio/leo-words-with-fam",
+          "branch": "main",
+          "build": "cargo build --release",
+          "bin": "target/release/leo-words-with-fam",
+          "port": 0
+        },
+        "pages": [
+          { "path": "play", "label": "Words", "icon": "puzzle-piece", "sidebar_group": "Family" }
+        ],
+        "entitlements": {}
+      }
     }
   ]
 }
