@@ -1,0 +1,43 @@
+name: Deploy to Cloudflare Pages
+
+# Publishes the catalog to https://leo-registry.pages.dev on every push to main.
+# The public/ directory is staged here (it's a gitignored build artifact) from
+# the repo's registry.json + schema/ + bundles/, then deployed via wrangler.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - registry.json
+      - schema/**
+      - bundles/**
+      - .github/workflows/deploy.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage public directory
+        run: |
+          mkdir -p public/bundles
+          cp registry.json public/
+          [ -d schema ] && cp -r schema public/ || true
+          [ -d bundles ] && cp -r bundles/. public/bundles/ || true
+          printf '%s\n' 'leo-registry — see /registry.json' > public/index.txt
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy public --project-name=leo-registry --branch=main --commit-dirty=true
