@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "updated_at": "2026-06-30T00:00:00Z",
+  "packages": [
+    {
+      "name": "everything-demo",
+      "label": "MCP Everything (Demo)",
+      "description": "Reference MCP server exercising tools, prompts, and resources. A working example of a Leo dynamic package that installs with no rebuild.",
+      "icon": "puzzle",
+      "version": "1.0.0",
+      "author": "Model Context Protocol",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-everything"],
+        "timeout_secs": 30
+      },
+      "descriptor": {
+        "fields": [],
+        "pages": [],
+        "migrations": []
+      }
+    }
+  ]
+}

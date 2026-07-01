@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://packages.aurum.academy/schema/registry.schema.json",
+  "title": "Leo Package Registry",
+  "description": "Catalog of installable data-driven (no-rebuild) Leo packages.",
+  "type": "object",
+  "required": ["schema", "packages"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "type": "integer", "const": 1 },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "packages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/package" }
+    }
+  },
+  "$defs": {
+    "package": {
+      "type": "object",
+      "required": ["name", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique id. Used as a settings-key component, plugin URL segment, and MCP package name.",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "label": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "version": { "type": "string" },
+        "author": { "type": "string" },
+        "homepage": { "type": "string", "format": "uri" },
+        "category": { "type": "string", "enum": ["core", "package"] },
+        "mcp": { "$ref": "#/$defs/mcp" },
+        "descriptor": { "$ref": "#/$defs/descriptor" },
+        "bundle": { "$ref": "#/$defs/bundle" }
+      }
+    },
+    "mcp": {
+      "type": "object",
+      "required": ["transport"],
+      "additionalProperties": false,
+      "properties": {
+        "transport": { "type": "string", "enum": ["stdio", "http"] },
+        "command": { "type": "string" },
+        "args": { "type": "array", "items": { "type": "string" } },
+        "env": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "url": { "type": "string" },
+        "timeout_secs": { "type": "integer", "minimum": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "transport": { "const": "stdio" } } },
+          "then": { "required": ["command"] }
+        },
+        {
+          "if": { "properties": { "transport": { "const": "http" } } },
+          "then": { "required": ["url"] }
+        }
+      ]
+    },
+    "descriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": { "type": "array", "items": { "$ref": "#/$defs/field" } },
+        "pages": { "type": "array", "items": { "$ref": "#/$defs/page" } },
+        "migrations": { "type": "array", "items": { "type": "string" } },
+        "mcp_server": { "type": "string" }
+      }
+    },
+    "field": {
+      "type": "object",
+      "required": ["key", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "key": { "type": "string" },
+        "label": { "type": "string" },
+        "field_type": {
+          "type": "string",
+          "enum": ["text", "password", "number", "boolean", "select", "file"]
+        },
+        "required": { "type": "boolean" },
+        "options": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "page": {
+      "type": "object",
+      "required": ["path", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string" },
+        "label": { "type": "string" },
+        "icon": { "type": "string" },
+        "sidebar_group": { "type": "string" },
+        "settings_page": { "type": "boolean" }
+      }
+    },
+    "bundle": {
+      "type": "object",
+      "required": ["url", "sha256"],
+      "additionalProperties": false,
+      "description": "Frontend bundle. sha256 is REQUIRED for the public registry so a compromised host cannot inject JavaScript.",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }
+      }
+    }
+  }
+}
