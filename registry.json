@@ -27,7 +27,17 @@
       "icon": "phone",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "apns_key_path",
+            "apns_key_id",
+            "apns_team_id",
+            "apns_bundle_id",
+            "apns_sandbox"
+          ]
+        }
+      }
     },
     {
       "name": "calendar",
@@ -153,7 +163,14 @@
       "icon": "home",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "homeassistant_url",
+            "homeassistant_token"
+          ]
+        }
+      }
     },
     {
       "name": "hosting",
@@ -171,7 +188,14 @@
       "icon": "message-circle",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "imessage_phone",
+            "bridge_token"
+          ]
+        }
+      }
     },
     {
       "name": "knowledge",
@@ -189,7 +213,13 @@
       "icon": "cpu-chip",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "fast_inference_local_model"
+          ]
+        }
+      }
     },
     {
       "name": "mac",
@@ -342,7 +372,17 @@
       "icon": "shield-check",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "vpn_server_address",
+            "vpn_shared_secret",
+            "vpn_local_identifier",
+            "vpn_remote_identifier",
+            "vpn_trusted_ssids"
+          ]
+        }
+      }
     },
     {
       "name": "web_fetch",
@@ -396,7 +436,15 @@
       "icon": "waveform",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "elevenlabs_api_key",
+            "elevenlabs_voice_id",
+            "elevenlabs_model"
+          ]
+        }
+      }
     },
     {
       "name": "everything-demo",
@@ -429,7 +477,13 @@
       "icon": "sparkles",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "gemini_api_key"
+          ]
+        }
+      }
     },
     {
       "name": "gmail",
@@ -438,7 +492,14 @@
       "icon": "mail",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "gmail_client_id",
+            "gmail_client_secret"
+          ]
+        }
+      }
     },
     {
       "name": "grok",
@@ -447,7 +508,13 @@
       "icon": "zap",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "grok_api_key"
+          ]
+        }
+      }
     },
     {
       "name": "mcp_google-cloud",
@@ -456,7 +523,16 @@
       "icon": "puzzle",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "transport",
+            "command",
+            "args",
+            "url"
+          ]
+        }
+      }
     },
     {
       "name": "neutts",
@@ -465,7 +541,13 @@
       "icon": "speaker-wave",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "neutts_service_url"
+          ]
+        }
+      }
     },
     {
       "name": "obsidian",
@@ -474,7 +556,14 @@
       "icon": "book-open",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "obsidian_vault_path",
+            "obsidian_include_folders"
+          ]
+        }
+      }
     },
     {
       "name": "openai",
@@ -483,7 +572,15 @@
       "icon": "sparkles",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "openai_api_key",
+            "openai_default_model",
+            "openai_image_model"
+          ]
+        }
+      }
     },
     {
       "name": "pexels",
@@ -492,7 +589,13 @@
       "icon": "image",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "pexels_api_key"
+          ]
+        }
+      }
     },
     {
       "name": "pfsense",
@@ -501,7 +604,17 @@
       "icon": "shield",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "pfsense_host",
+            "pfsense_port",
+            "pfsense_username",
+            "pfsense_password",
+            "pfsense_key"
+          ]
+        }
+      }
     },
     {
       "name": "picovoice",
@@ -510,7 +623,13 @@
       "icon": "mic",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "picovoice_access_key"
+          ]
+        }
+      }
     },
     {
       "name": "piper",
@@ -519,7 +638,14 @@
       "icon": "speaker-wave",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "piper_voice",
+            "piper_speaker"
+          ]
+        }
+      }
     },
     {
       "name": "plaid",
@@ -528,7 +654,15 @@
       "icon": "landmark",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "plaid_client_id",
+            "plaid_secret",
+            "plaid_env"
+          ]
+        }
+      }
     },
     {
       "name": "shopping",
@@ -546,7 +680,13 @@
       "icon": "search",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "tavily_api_key"
+          ]
+        }
+      }
     },
     {
       "name": "testflight",
@@ -555,7 +695,14 @@
       "icon": "rocket",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "asc_key_id",
+            "asc_issuer_id"
+          ]
+        }
+      }
     },
     {
       "name": "unsplash",
@@ -564,7 +711,13 @@
       "icon": "image",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "unsplash_access_key"
+          ]
+        }
+      }
     },
     {
       "name": "weather",
@@ -573,7 +726,15 @@
       "icon": "cloud",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "weather_default_location",
+            "weather_units",
+            "weather_owm_api_key"
+          ]
+        }
+      }
     },
     {
       "name": "words-with-fam",
@@ -599,8 +760,7 @@
             "icon": "puzzle-piece",
             "sidebar_group": "Family"
           }
-        ],
-        "entitlements": {}
+        ]
       }
     }
   ]
