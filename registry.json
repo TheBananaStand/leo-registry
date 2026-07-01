@@ -418,7 +418,18 @@
       "icon": "paint-brush",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "network": [
+            "api.openai.com",
+            "api.x.ai",
+            "generativelanguage.googleapis.com",
+            "fal.run",
+            "configured:website"
+          ],
+          "storage_mb": 250
+        }
+      }
     },
     {
       "name": "code",
@@ -427,7 +438,13 @@
       "icon": "code-bracket",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "network": [
+            "127.0.0.1:8421"
+          ]
+        }
+      }
     },
     {
       "name": "elevenlabs",
@@ -442,7 +459,11 @@
             "elevenlabs_api_key",
             "elevenlabs_voice_id",
             "elevenlabs_model"
-          ]
+          ],
+          "network": [
+            "api.elevenlabs.io"
+          ],
+          "storage_mb": 50
         }
       }
     },
@@ -481,6 +502,9 @@
         "entitlements": {
           "settings_read": [
             "gemini_api_key"
+          ],
+          "network": [
+            "generativelanguage.googleapis.com"
           ]
         }
       }
@@ -497,6 +521,10 @@
           "settings_read": [
             "gmail_client_id",
             "gmail_client_secret"
+          ],
+          "network": [
+            "oauth2.googleapis.com",
+            "gmail.googleapis.com"
           ]
         }
       }
@@ -512,7 +540,11 @@
         "entitlements": {
           "settings_read": [
             "grok_api_key"
-          ]
+          ],
+          "network": [
+            "api.x.ai"
+          ],
+          "storage_mb": 200
         }
       }
     },
@@ -545,6 +577,9 @@
         "entitlements": {
           "settings_read": [
             "neutts_service_url"
+          ],
+          "network": [
+            "configured:neutts_service_url"
           ]
         }
       }
@@ -578,7 +613,11 @@
             "openai_api_key",
             "openai_default_model",
             "openai_image_model"
-          ]
+          ],
+          "network": [
+            "api.openai.com"
+          ],
+          "storage_mb": 50
         }
       }
     },
@@ -593,6 +632,9 @@
         "entitlements": {
           "settings_read": [
             "pexels_api_key"
+          ],
+          "network": [
+            "api.pexels.com"
           ]
         }
       }
@@ -612,6 +654,9 @@
             "pfsense_username",
             "pfsense_password",
             "pfsense_key"
+          ],
+          "network": [
+            "configured:pfsense_host"
           ]
         }
       }
@@ -643,7 +688,8 @@
           "settings_read": [
             "piper_voice",
             "piper_speaker"
-          ]
+          ],
+          "storage_mb": 150
         }
       }
     },
@@ -660,6 +706,11 @@
             "plaid_client_id",
             "plaid_secret",
             "plaid_env"
+          ],
+          "network": [
+            "production.plaid.com",
+            "development.plaid.com",
+            "sandbox.plaid.com"
           ]
         }
       }
@@ -671,7 +722,13 @@
       "icon": "shopping-bag",
       "version": "1.0.0",
       "category": "package",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "network": [
+            "www.amazon.com"
+          ]
+        }
+      }
     },
     {
       "name": "tavily",
@@ -684,6 +741,9 @@
         "entitlements": {
           "settings_read": [
             "tavily_api_key"
+          ],
+          "network": [
+            "api.tavily.com"
           ]
         }
       }
@@ -700,6 +760,9 @@
           "settings_read": [
             "asc_key_id",
             "asc_issuer_id"
+          ],
+          "network": [
+            "configured:mac_host"
           ]
         }
       }
@@ -715,6 +778,9 @@
         "entitlements": {
           "settings_read": [
             "unsplash_access_key"
+          ],
+          "network": [
+            "api.unsplash.com"
           ]
         }
       }
@@ -732,6 +798,11 @@
             "weather_default_location",
             "weather_units",
             "weather_owm_api_key"
+          ],
+          "network": [
+            "api.open-meteo.com",
+            "geocoding-api.open-meteo.com",
+            "api.openweathermap.org"
           ]
         }
       }
