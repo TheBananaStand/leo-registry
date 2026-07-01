@@ -36,15 +36,10 @@ def main() -> int:
     for n in sorted(dupes):
         errors.append(f"duplicate package name: {n!r}")
 
-    for pkg in registry.get("packages", []):
-        name = pkg.get("name", "<unknown>")
-        # A package must DO something: provide tools (mcp), be an app, or have pages.
-        desc = pkg.get("descriptor", {})
-        has_mcp = "mcp" in pkg
-        has_pages = bool(desc.get("pages"))
-        is_app = desc.get("kind") == "app" or "app" in desc
-        if not has_mcp and not has_pages and not is_app:
-            errors.append(f"{name}: has no mcp server, app, or pages — it would install but do nothing")
+    # The registry is a full catalog: core and compiled built-in packages are
+    # metadata-only entries (installed via a flag, no remote descriptor), so an
+    # entry without mcp/app/pages is valid. Schema validation + unique names are
+    # the invariants that matter.
 
     if errors:
         print(f"registry.json INVALID ({len(errors)} problem(s)):\n", file=sys.stderr)

@@ -1,7 +1,403 @@
 {
   "schema": 1,
-  "updated_at": "2026-06-30T00:00:00Z",
+  "updated_at": "2026-07-01T00:00:00Z",
   "packages": [
+    {
+      "name": "agent_memory",
+      "label": "Agent Memory",
+      "description": "Persist notes across agent runs.",
+      "icon": "bookmark",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "anthropic",
+      "label": "Claude (OAuth)",
+      "description": "Powers all AI conversations, agent task execution, research, and tool orchestration via the Anthropic API using Claude CLI OAuth credentials. Required for Leo to function.",
+      "icon": "brain",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "apns",
+      "label": "iOS",
+      "description": "Sends push notifications to Leo Mobile via Apple Push Notification Service.",
+      "icon": "phone",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "calendar",
+      "label": "Calendar",
+      "description": "Manage calendar events with full CRUD support.",
+      "icon": "calendar",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "claude_config",
+      "label": "Claude Config",
+      "description": "Manage Claude system prompt config sections.",
+      "icon": "cog-6-tooth",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "costs",
+      "label": "Costs",
+      "description": "View LLM usage costs and token consumption.",
+      "icon": "currency-dollar",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "db_query",
+      "label": "Database Query",
+      "description": "Run read-only SQL queries against Leo's SQLite database.",
+      "icon": "circle-stack",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "documents",
+      "label": "Documents",
+      "description": "Manage living document sections for projects.",
+      "icon": "document-text",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "email",
+      "label": "Email",
+      "description": "Search and read synced email inbox.",
+      "icon": "envelope",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "family",
+      "label": "Family",
+      "description": "Manage family member records.",
+      "icon": "users",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "feed",
+      "label": "Feed",
+      "description": "Post structured items to the user's feed.",
+      "icon": "rss",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "fetch_image",
+      "label": "Fetch Image",
+      "description": "Fetch images from URLs and save them locally.",
+      "icon": "photo",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "files",
+      "label": "Files",
+      "description": "Read, write, list, and search files on the filesystem.",
+      "icon": "folder",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "finance",
+      "label": "Finance",
+      "description": "Manage financial accounts, transactions, and spending analytics.",
+      "icon": "currency-dollar",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "gallery",
+      "label": "Gallery",
+      "description": "Manage image collections and generated images.",
+      "icon": "photo",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "health",
+      "label": "Health",
+      "description": "Track personal health metrics.",
+      "icon": "heart",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "homeassistant",
+      "label": "Home Assistant",
+      "description": "Controls smart home devices through Home Assistant.",
+      "icon": "home",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "hosting",
+      "label": "Hosting",
+      "description": "Manage hosted app dev servers as systemd user services.",
+      "icon": "server-stack",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "imessage",
+      "label": "iMessage Bridge",
+      "description": "Bi-directional iMessage access through the Mac satellite.",
+      "icon": "message-circle",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "knowledge",
+      "label": "Knowledge",
+      "description": "Wiki-style knowledge base.",
+      "icon": "book-open",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "local",
+      "label": "Local AI",
+      "description": "Local AI models for speech-to-text and embeddings.",
+      "icon": "cpu-chip",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "mac",
+      "label": "macOS",
+      "description": "Connects to a Mac via SSH for Apple ecosystem access.",
+      "icon": "laptop",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "network",
+      "label": "Network",
+      "description": "Manage pfSense network via its REST API.",
+      "icon": "globe-alt",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "news",
+      "label": "News",
+      "description": "Browse news articles and manage news sources.",
+      "icon": "newspaper",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "projects",
+      "label": "Projects",
+      "description": "Manage projects, vacations, and work/development projects.",
+      "icon": "folder",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "push",
+      "label": "Push Notifications",
+      "description": "Send push notifications to mobile devices.",
+      "icon": "bell",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "reminders",
+      "label": "Reminders",
+      "description": "Manage reminder lists and items.",
+      "icon": "clipboard-document-list",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "scheduler",
+      "label": "Scheduler",
+      "description": "Manage cron jobs for scheduled tasks.",
+      "icon": "clock",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "semantic_search",
+      "label": "Semantic Search",
+      "description": "Search across knowledge, conversations, and feed items by meaning.",
+      "icon": "magnifying-glass",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "setup",
+      "label": "Setup",
+      "description": "Configure Leo packages from the chat interface.",
+      "icon": "wrench",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "shell",
+      "label": "Shell",
+      "description": "Execute bash commands on the host system.",
+      "icon": "command-line",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "spies",
+      "label": "Spies",
+      "description": "Manage background scheduled monitors.",
+      "icon": "eye",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "storyboard",
+      "label": "Storyboard",
+      "description": "Manage visual storyboards with ordered frames.",
+      "icon": "film",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "system",
+      "label": "System",
+      "description": "System diagnostics and Leo service management.",
+      "icon": "cog",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "tasks",
+      "label": "Tasks",
+      "description": "Manage background research tasks.",
+      "icon": "clipboard-document-list",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "user_locations",
+      "label": "User Locations",
+      "description": "Track and display user locations on the map.",
+      "icon": "map-pin",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "vacation",
+      "label": "Vacation Items",
+      "description": "Manage structured vacation travel data.",
+      "icon": "globe-americas",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "vpn",
+      "label": "VPN",
+      "description": "Manage strongSwan IKEv2 VPN \u2014 status, client provisioning, and server setup.",
+      "icon": "shield-check",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "web_fetch",
+      "label": "Web Fetch",
+      "description": "Fetch web pages and extract readable text content.",
+      "icon": "globe-alt",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "web_search",
+      "label": "Web Search",
+      "description": "Search the web via Tavily.",
+      "icon": "magnifying-glass",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "windows",
+      "label": "Native Windows",
+      "description": "Open native Leo windows from chat \u2014 browser, map, and app panels.",
+      "icon": "layout",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "brand-lab",
+      "label": "Brand Lab",
+      "description": "Turn a few answers into a full, beautiful brand identity.",
+      "icon": "paint-brush",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "code",
+      "label": "Leo Code",
+      "description": "Claude Code agent sessions for software development.",
+      "icon": "code-bracket",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "elevenlabs",
+      "label": "ElevenLabs",
+      "description": "High-quality text-to-speech with custom voice design via ElevenLabs.",
+      "icon": "waveform",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
     {
       "name": "everything-demo",
       "label": "MCP Everything (Demo)",
@@ -14,7 +410,10 @@
       "mcp": {
         "transport": "stdio",
         "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-everything"],
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-everything"
+        ],
         "timeout_secs": 30
       },
       "descriptor": {
@@ -24,9 +423,162 @@
       }
     },
     {
+      "name": "gemini",
+      "label": "Gemini",
+      "description": "Google Gemini AI integration for chat and reasoning.",
+      "icon": "sparkles",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "gmail",
+      "label": "Gmail",
+      "description": "Gmail API access for reading and sending email.",
+      "icon": "mail",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "grok",
+      "label": "Grok",
+      "description": "xAI Grok integration for chat, web search, and image generation.",
+      "icon": "zap",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "mcp_google-cloud",
+      "label": "MCP: google-cloud",
+      "description": "MCP server integration for 'google-cloud'",
+      "icon": "puzzle",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "neutts",
+      "label": "Leo Voice (NeuTTS)",
+      "description": "Local cloned-voice TTS via NeuTTS-Air on the Vulkan llama-server.",
+      "icon": "speaker-wave",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "obsidian",
+      "label": "Obsidian",
+      "description": "Read, write, and search an Obsidian vault.",
+      "icon": "book-open",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "openai",
+      "label": "OpenAI",
+      "description": "Image generation, text-to-speech, embeddings, and GPT chat via OpenAI API.",
+      "icon": "sparkles",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "pexels",
+      "label": "Pexels",
+      "description": "Provides wallpaper images from Pexels for the chat background.",
+      "icon": "image",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "pfsense",
+      "label": "pfSense",
+      "description": "Connects to a pfSense firewall via SSH for network management.",
+      "icon": "shield",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "picovoice",
+      "label": "Picovoice",
+      "description": "Wake word detection for LeoVoice via Porcupine.",
+      "icon": "mic",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "piper",
+      "label": "Piper",
+      "description": "Local, offline text-to-speech using Piper.",
+      "icon": "speaker-wave",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "plaid",
+      "label": "Plaid",
+      "description": "Links bank accounts to sync transactions, balances, and spending data.",
+      "icon": "landmark",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "shopping",
+      "label": "Shopping",
+      "description": "Save, organize, and discover products from any source.",
+      "icon": "shopping-bag",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "tavily",
+      "label": "Web Search",
+      "description": "Enables the web_search tool for research tasks and chat.",
+      "icon": "search",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "testflight",
+      "label": "TestFlight",
+      "description": "Deploy iOS projects to TestFlight via Mac satellite",
+      "icon": "rocket",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "unsplash",
+      "label": "Unsplash",
+      "description": "Provides wallpaper images from Unsplash for the chat background.",
+      "icon": "image",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
+      "name": "weather",
+      "label": "Weather",
+      "description": "Real-time weather and forecasts via Open-Meteo (free) or OpenWeatherMap.",
+      "icon": "cloud",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {}
+    },
+    {
       "name": "words-with-fam",
       "label": "Words With Fam",
-      "description": "Play Words With Friends with your family — full 15×15 board, the real tile set and premium squares, dictionary-validated plays, blanks, swaps, and scoring.",
+      "description": "Play Words With Friends with your family \u2014 full 15\u00d715 board, the real tile set and premium squares, dictionary-validated plays, blanks, swaps, and scoring.",
       "icon": "puzzle-piece",
       "version": "0.2.0",
       "author": "scottraio",
@@ -41,7 +593,12 @@
           "port": 0
         },
         "pages": [
-          { "path": "play", "label": "Words", "icon": "puzzle-piece", "sidebar_group": "Family" }
+          {
+            "path": "play",
+            "label": "Words",
+            "icon": "puzzle-piece",
+            "sidebar_group": "Family"
+          }
         ],
         "entitlements": {}
       }
