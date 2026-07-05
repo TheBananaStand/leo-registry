@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-07-01T00:00:00Z",
+  "updated_at": "2026-07-04T00:00:00Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -712,6 +712,27 @@
             "development.plaid.com",
             "sandbox.plaid.com"
           ]
+        }
+      }
+    },
+    {
+      "name": "recraft",
+      "label": "Recraft",
+      "description": "Professional AI image generation for icons, logos, and vector graphics.",
+      "icon": "paint-brush",
+      "version": "1.0.0",
+      "category": "package",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "recraft_api_key",
+            "recraft_default_model"
+          ],
+          "network": [
+            "external.api.recraft.ai",
+            "img.recraft.ai"
+          ],
+          "storage_mb": 200
         }
       }
     },
