@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-07-04T00:00:00Z",
+  "updated_at": "2026-08-08T00:00:00Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -481,7 +481,7 @@
         "command": "npx",
         "args": [
           "-y",
-          "@modelcontextprotocol/server-everything"
+          "@modelcontextprotocol/server-everything@2026.7.4"
         ],
         "timeout_secs": 30
       },
@@ -840,6 +840,7 @@
         "kind": "app",
         "app": {
           "repo": "https://github.com/scottraio/leo-words-with-fam",
+          "rev": "2f64b40c9292fbb275430bd11aae3ba579e4c382",
           "branch": "main",
           "build": "cargo build --release",
           "bin": "target/release/leo-words-with-fam",
