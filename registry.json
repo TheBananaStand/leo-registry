@@ -898,7 +898,7 @@
               "classes": [
                 "search_queries"
               ],
-              "because": "The search text and nothing else. Claude writes the query from your conversation, so it can quote what you said — but no transcript, file or account data is attached to it."
+              "purpose": "The search text and nothing else. Claude writes the query from your conversation, so it can quote what you said — but no transcript, file or account data is attached to it."
             }
           ]
         }
