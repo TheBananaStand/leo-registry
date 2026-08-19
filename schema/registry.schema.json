@@ -72,6 +72,11 @@
         "pages": { "type": "array", "items": { "$ref": "#/$defs/page" } },
         "migrations": { "type": "array", "items": { "type": "string" } },
         "mcp_server": { "type": "string" },
+        "provides": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["wallpaper", "web_search", "tts"] },
+          "description": "Subsystems this package's MCP server stands in for. Tools are what a package gives Claude; a provider is what it gives Leo — the wallpaper generator, the web_search tool and the speech pipeline each call one. The linked server must answer that role's tool: wallpaper -> search_photos, web_search -> search, tts -> synthesize (voices optional). Filling a role is shown at consent and is part of the install digest, so a role cannot be added after approval without the digest moving."
+        },
         "entitlements": { "$ref": "#/$defs/entitlements" },
         "app": { "$ref": "#/$defs/appspec" }
       },
@@ -99,7 +104,28 @@
           "items": { "type": "string" },
           "description": "Hostnames the package's process may reach."
         },
+        "sends": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dataflow" },
+          "description": "What classes of the owner's data leave the box, to which destination, and why — one entry per host. `network` says WHERE a package may dial; this says WHAT goes there, which is the half an owner actually needs to consent. A host in `network` with no entry here is reported at install as 'does NOT say what data it sends to …'."
+        },
         "storage_mb": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "dataflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["to", "classes", "because"],
+      "description": "One destination and what the package admits to sending it. A declaration naming no class, or no purpose, is a defect and is refused at install rather than shown as a disclosure.",
+      "properties": {
+        "to": { "type": "string", "description": "Hostname, matching an entry in `network`." },
+        "classes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Coarse data classes (search_queries, prompts, conversations, mail, financial, …). Deliberately coarse: this is read at a consent prompt, not queried."
+        },
+        "because": { "type": "string", "minLength": 1, "description": "Why, in the owner's terms — shown verbatim at consent." }
       }
     },
     "appspec": {

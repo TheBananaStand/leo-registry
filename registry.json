@@ -368,7 +368,7 @@
     {
       "name": "vpn",
       "label": "VPN",
-      "description": "Manage strongSwan IKEv2 VPN \u2014 status, client provisioning, and server setup.",
+      "description": "Manage strongSwan IKEv2 VPN — status, client provisioning, and server setup.",
       "icon": "shield-check",
       "version": "1.0.0",
       "category": "core",
@@ -405,7 +405,7 @@
     {
       "name": "windows",
       "label": "Native Windows",
-      "description": "Open native Leo windows from chat \u2014 browser, map, and app panels.",
+      "description": "Open native Leo windows from chat — browser, map, and app panels.",
       "icon": "layout",
       "version": "1.0.0",
       "category": "core",
@@ -831,7 +831,7 @@
     {
       "name": "words-with-fam",
       "label": "Words With Fam",
-      "description": "Play Words With Friends with your family \u2014 full 15\u00d715 board, the real tile set and premium squares, dictionary-validated plays, blanks, swaps, and scoring.",
+      "description": "Play Words With Friends with your family — full 15×15 board, the real tile set and premium squares, dictionary-validated plays, blanks, swaps, and scoring.",
       "icon": "puzzle-piece",
       "version": "0.2.0",
       "author": "scottraio",
@@ -854,6 +854,54 @@
             "sidebar_group": "Family"
           }
         ]
+      }
+    },
+    {
+      "name": "tavily-mcp",
+      "label": "Web Search (Tavily, MCP)",
+      "description": "Tavily web search, installed at runtime — no rebuild.",
+      "icon": "search",
+      "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-tavily-mcp",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-tavily-mcp/archive/458666526d6148fbca45f9faab3d4f499a1ee0a9.tar.gz"
+        ]
+      },
+      "descriptor": {
+        "provides": [
+          "web_search"
+        ],
+        "fields": [
+          {
+            "key": "tavily_api_key",
+            "label": "API Key",
+            "field_type": "password",
+            "required": true
+          }
+        ],
+        "entitlements": {
+          "settings_read": [
+            "tavily_api_key"
+          ],
+          "network": [
+            "api.tavily.com"
+          ],
+          "sends": [
+            {
+              "to": "api.tavily.com",
+              "classes": [
+                "search_queries"
+              ],
+              "because": "The search text and nothing else. Claude writes the query from your conversation, so it can quote what you said — but no transcript, file or account data is attached to it."
+            }
+          ]
+        }
       }
     }
   ]
