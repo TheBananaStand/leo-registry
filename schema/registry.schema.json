@@ -115,7 +115,7 @@
     "dataflow": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["to", "classes", "because"],
+      "required": ["to", "classes", "purpose"],
       "description": "One destination and what the package admits to sending it. A declaration naming no class, or no purpose, is a defect and is refused at install rather than shown as a disclosure.",
       "properties": {
         "to": { "type": "string", "description": "Hostname, matching an entry in `network`." },
@@ -125,7 +125,7 @@
           "items": { "type": "string" },
           "description": "Coarse data classes (search_queries, prompts, conversations, mail, financial, …). Deliberately coarse: this is read at a consent prompt, not queried."
         },
-        "because": { "type": "string", "minLength": 1, "description": "Why, in the owner's terms — shown verbatim at consent." }
+        "purpose": { "type": "string", "minLength": 1, "description": "Why, in one plain sentence — the half a person actually reads, shown verbatim at consent. Named for the serialized field; `because()` is only the Rust builder's method name." }
       }
     },
     "appspec": {
