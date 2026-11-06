@@ -41,6 +41,37 @@ def main() -> int:
     # entry without mcp/app/pages is valid. Schema validation + unique names are
     # the invariants that matter.
 
+    # 3. A `hosted` block's four naming fields must agree with each other and
+    #    with the entry. The schema holds each one's shape; only this can hold
+    #    them to EACH OTHER, and that is the half that fails quietly.
+    #
+    #    The sha256 pins the BYTES and not which package they are. So a `url`
+    #    copied from a neighbouring entry, with that artifact's own correct hash
+    #    beside it, passes every integrity check on the install path and
+    #    installs a package nobody reviewed. There is no later gate that reads
+    #    the URL: step 2 of the install verifies the hash it was given against
+    #    the bytes it fetched, and both belong to the wrong package.
+    for p in registry.get("packages", []):
+        hosted = p.get("hosted")
+        if not isinstance(hosted, dict):
+            continue
+        name = p.get("name")
+        pkgname = hosted.get("pkgname")
+        if pkgname != f"leo-package-{name}":
+            errors.append(
+                f"{name}: hosted.pkgname is {pkgname!r}, expected "
+                f"'leo-package-{name}' — it would be served under one name and "
+                f"land on disk under another"
+            )
+        expected = f"{pkgname}-{hosted.get('version')}-{hosted.get('arch')}.pkg.tar.zst"
+        basename = str(hosted.get("url", "")).split("?")[0].split("#")[0].rsplit("/", 1)[-1]
+        if basename != expected:
+            errors.append(
+                f"{name}: hosted.url ends in {basename!r}, but pkgname/version/"
+                f"arch describe {expected!r} — the hash pins the bytes, not "
+                f"which package they are"
+            )
+
     if errors:
         print(f"registry.json INVALID ({len(errors)} problem(s)):\n", file=sys.stderr)
         for e in errors:

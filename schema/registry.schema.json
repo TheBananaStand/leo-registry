@@ -34,7 +34,8 @@
         "category": { "type": "string", "enum": ["core", "package"] },
         "mcp": { "$ref": "#/$defs/mcp" },
         "descriptor": { "$ref": "#/$defs/descriptor" },
-        "bundle": { "$ref": "#/$defs/bundle" }
+        "bundle": { "$ref": "#/$defs/bundle" },
+        "hosted": { "$ref": "#/$defs/hosted" }
       }
     },
     "mcp": {
@@ -177,6 +178,28 @@
       "properties": {
         "url": { "type": "string", "format": "uri" },
         "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }
+      }
+    },
+    "hosted": {
+      "type": "object",
+      "required": ["pkgname", "version", "arch", "url", "sha256", "size_bytes"],
+      "additionalProperties": false,
+      "description": "An OS package: one pacman artifact the hub downloads, verifies and installs with `pacman -U`, after which the package runs as its own systemd unit (leo-package@<name>) instead of linked into the hub. The fifth install surface and the heaviest - a root transaction placing a binary, a sysusers account and a D-Bus policy. Minimal on purpose: everything derivable is derived, because a field that can drift is a field that will. Four things an install needs are deliberately absent. The socket names: leo-package@.socket derives both from %i, and two spellings of one fact is how they disagree. libduckdb: the builder asks `ldd` of the binary and ships it or does not, so the loader follows the binary and a catalog field could contradict it. The unit templates: they belong to Leo OS (os/os-files.manifest) and are shared by every hosted package, and N packages owning one file is something pacman correctly refuses. The entitlements: reused from this entry's `descriptor.entitlements`, which is what the user was SHOWN - the artifact's own leo-package.json is the authority at install, and the two disagreeing is a refusal rather than a merge. Every key here is required: a half-written block is a publishing defect, and an install that filled one in would be installing something nobody declared.",
+      "properties": {
+        "pkgname": {
+          "type": "string",
+          "allOf": [
+            { "pattern": "^leo-package-[a-z][a-z0-9-]{0,23}$" },
+            { "not": { "pattern": "--" } },
+            { "not": { "pattern": "-$" } }
+          ],
+          "description": "The pacman package name, always `leo-package-<name>` for this entry's own `name`. Pinned to this grammar rather than taking any string because the `<name>` half becomes a systemd instance, a D-Bus name element, a unix account and a path before it is ever a package name, and each of those is narrower than a string. The install's own confinement on this route is exactly a character class - leo_core::package_service::validate, which every path-deriving function spends BEFORE the format! that joins the name, because refusing a name by class before it is ever joined is stronger than canonicalizing after the fact. The three assertions here are that same check: the class, no doubled hyphen, no trailing hyphen. `validate` also refuses a RESERVED list of names, which lives in Rust and is deliberately NOT mirrored here - a third spelling of that list is how it would come to disagree, and a reserved name is refused at install rather than being something a reviewer must memorise. Note what this does NOT claim: the `--overwrite` values of a takeover install are not derived from this name. Section 4 settles that they are package-independent constants, pinned in the sudoers rule with an escaped asterisk, with nothing to parameterise."
+        },
+        "version": { "type": "string", "pattern": "^[A-Za-z0-9._+]+-[0-9]+$", "description": "`pkgver-pkgrel`, pacman's spelling - not the package's own version string. A pacman pkgver may not contain a hyphen because that is the separator, so the builder rewrites `-` to `.` and appends the release: '0.4.0-1'. A bare '0.4.0' is not a pacman version and neither is '0.4.0-rc1'." },
+        "arch": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$", "description": "The artifact's architecture as pacman spells it - 'x86_64', or 'any'. A pattern rather than an enum: refusing an architecture nobody has built for yet would be this file deciding something the builder owns, and a hub learns an arch mismatch from `pacman -U` refusing the file." },
+        "url": { "type": "string", "format": "uri", "description": "Where the artifact is. Named rather than computed from a template, so moving the host later is a catalog change and not a code change. Its basename should read `<pkgname>-<version>-<arch>.pkg.tar.zst`, and scripts/validate.py checks that the four agree - the sha256 pins the BYTES and not which package they are, so a url copied from a neighbouring entry verifies cleanly and installs something nobody reviewed." },
+        "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$", "description": "Hex SHA-256 of the artifact, verified before pacman is handed the file. REQUIRED, for the reason bundle.sha256 is and a worse one: an unverified bundle is stored XSS, an unverified artifact is `pacman -U` as root. There is deliberately NO signature field - the hash arrives in the same JSON as the bytes it describes, so it catches a corrupted download and not a hostile catalog, and an optional signature nobody populates is worse than none because it reads as present. A real signature plus a required field is phase 2, when a key has a home." },
+        "size_bytes": { "type": "integer", "minimum": 1, "description": "The artifact's size. Lets a hub cap the download against the declared figure rather than only against a ceiling, and lets it say what it is about to fetch before fetching it - the hash cannot be checked until the last byte is already resident, so the size is the only bound available while reading." }
       }
     }
   }
