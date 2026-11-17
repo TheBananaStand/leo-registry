@@ -126,7 +126,11 @@
           "items": { "$ref": "#/$defs/dataflow" },
           "description": "What classes of the owner's data leave the box, to which destination, and why — one entry per host. `network` says WHERE a package may dial; this says WHAT goes there, which is the half an owner actually needs to consent. A host in `network` with no entry here is reported at install as 'does NOT say what data it sends to …'."
         },
-        "storage_mb": { "type": "integer", "minimum": 0 }
+        "storage_mb": { "type": "integer", "minimum": 0 },
+        "inference": {
+          "$ref": "#/$defs/inference",
+          "description": "May ask Claude questions through the hub on the HOUSEHOLD's own credential (`POST /graph/v1/inference/messages`). A declaration of which classes of the owner's data go into prompts and why, not a flag: it is billed to the household's ceiling and ledger, which is the whole point of it being an entitlement rather than `anthropic_api_key` in `settings_read`. Joined the vocabulary 2026-11-16, when it was ruled to follow the hub's `Entitlements` type."
+        }
       }
     },
     "dataflow": {
@@ -143,6 +147,16 @@
           "description": "Coarse data classes (search_queries, prompts, conversations, mail, financial, …). Deliberately coarse: this is read at a consent prompt, not queried."
         },
         "purpose": { "type": "string", "minLength": 1, "description": "Why, in one plain sentence — the half a person actually reads, shown verbatim at consent. Named for the serialized field; `because()` is only the Rust builder's method name." }
+      }
+    },
+    "inference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classes", "purpose"],
+      "description": "The inference grant as the hub's `InferenceGrant` serialises it. Like a dataflow, one naming no class or no purpose is a defect and is refused at install rather than shown as a disclosure.",
+      "properties": {
+        "classes": { "type": "array", "minItems": 1, "items": { "type": "string" }, "description": "Coarse data classes the package will put in prompts (prompts, conversations, mail, ...)." },
+        "purpose": { "type": "string", "minLength": 1, "description": "Why, in one plain sentence; shown verbatim at consent." }
       }
     },
     "appspec": {
