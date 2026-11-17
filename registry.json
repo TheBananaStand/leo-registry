@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-17T15:18:56Z",
+  "updated_at": "2026-11-17T16:31:15Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -2285,6 +2285,316 @@
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-duckdb-1.4.0-1-x86_64.pkg.tar.zst",
         "sha256": "d1adb6eb5693a9bb24f9e8499c005c29df63cfcca167b9f904b9f38ed128d669",
         "size_bytes": 20047037
+      }
+    },
+    {
+      "name": "figma",
+      "label": "Figma",
+      "description": "Read your Figma designs — file structure, rendered frames, and design tokens.",
+      "icon": "paint-brush",
+      "version": "0.1.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-figma",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "github:TheBananaStand/leo-figma#4405fd0533ad8c9ab6078c762db6ee4678c6be89"
+        ],
+        "timeout_secs": 60
+      },
+      "descriptor": {
+        "fields": [
+          {
+            "key": "FIGMA_TOKEN",
+            "label": "Figma personal access token",
+            "field_type": "password",
+            "required": true
+          }
+        ],
+        "pages": [],
+        "migrations": [],
+        "entitlements": {
+          "feed": false,
+          "push": false,
+          "settings_read": [
+            "FIGMA_TOKEN"
+          ],
+          "network": [
+            "api.figma.com"
+          ],
+          "sends": [
+            {
+              "to": "api.figma.com",
+              "classes": [
+                "credentials",
+                "search_queries"
+              ],
+              "purpose": "Your Figma token, and the file key and node ids you ask about. Design data travels the other way — nothing from Leo is sent to Figma, and the package can only read."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "game-studio-mcp",
+      "label": "Game Studio",
+      "description": "Bridge to the Game Studio service — projects, tasks, assets, builds and ComfyUI art.",
+      "icon": "gamepad-2",
+      "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-game-studio-mcp",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-game-studio-mcp/archive/15ea53ead497fa0731f8df76f46881c8e53b66ea.tar.gz"
+        ]
+      },
+      "descriptor": {
+        "fields": [
+          {
+            "key": "game_studio_url",
+            "label": "Game Studio URL",
+            "field_type": "text",
+            "required": false
+          }
+        ],
+        "entitlements": {
+          "settings_read": [
+            "game_studio_url"
+          ],
+          "network": [
+            "127.0.0.1"
+          ],
+          "sends": [
+            {
+              "to": "127.0.0.1",
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Nothing leaves this machine. The Game Studio service is a separate process on localhost, and what reaches it is what you asked for — project and task names, and the art prompts you write. Declared as prompts rather than as nothing sent, because the text is yours even when the destination is your own hardware."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "redfin",
+      "label": "Redfin",
+      "description": "Redfin listings, walk scores, mortgage rates and agents, installed at runtime — no rebuild.",
+      "icon": "map-pin",
+      "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-redfin",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-redfin/archive/41ae1e2808adc620153fd8afbc362be826ccf74f.tar.gz"
+        ]
+      },
+      "descriptor": {
+        "fields": [
+          {
+            "key": "redfin_rapidapi_key",
+            "label": "RapidAPI Key",
+            "field_type": "password",
+            "required": true
+          }
+        ],
+        "entitlements": {
+          "settings_read": [
+            "redfin_rapidapi_key"
+          ],
+          "network": [
+            "unofficial-redfin.p.rapidapi.com"
+          ],
+          "sends": [
+            {
+              "to": "unofficial-redfin.p.rapidapi.com",
+              "classes": [
+                "search_queries",
+                "location"
+              ],
+              "purpose": "The place you are asking about — a city, ZIP or street address — plus any price and bedroom filters. Addresses are listed as location and not just as a search phrase, because searching for a home says where you live or intend to. No conversation, file or account data is attached."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "testflight-mcp",
+      "label": "TestFlight",
+      "description": "Deploy registered iOS projects to TestFlight, and read back what App Store Connect numbered them — installed at runtime, no rebuild.",
+      "icon": "rocket",
+      "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-testflight",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-testflight/archive/348ef0f48193948fbbb3d6d018743e3e6df097e2.tar.gz"
+        ]
+      },
+      "descriptor": {
+        "fields": [
+          {
+            "key": "asc_key_id",
+            "label": "App Store Connect Key ID",
+            "field_type": "text",
+            "required": true
+          },
+          {
+            "key": "asc_issuer_id",
+            "label": "App Store Connect Issuer ID",
+            "field_type": "text",
+            "required": true
+          },
+          {
+            "key": "asc_private_key",
+            "label": "App Store Connect Private Key (.p8)",
+            "field_type": "password",
+            "required": false
+          }
+        ],
+        "entitlements": {
+          "settings_read": [
+            "asc_key_id",
+            "asc_issuer_id",
+            "asc_private_key",
+            "mac_host",
+            "mac_user",
+            "mac_password"
+          ],
+          "network": [
+            "api.appstoreconnect.apple.com"
+          ],
+          "sends": [
+            {
+              "to": "api.appstoreconnect.apple.com",
+              "classes": [
+                "credentials"
+              ],
+              "purpose": "A short-lived token signed with your App Store Connect key, and the bundle identifier of the app being asked about. Nothing else — no source, no conversation, no account data. The project source itself never goes here; it goes to your own Mac over ssh, which is not an internet host and is not listed."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "transcript-mcp",
+      "label": "Transcript",
+      "description": "Timestamped transcripts of YouTube and TikTok videos, installed at runtime — no rebuild.",
+      "icon": "closed-captioning",
+      "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-transcript",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-transcript/archive/2e2cd82eddd7823a9b6f7814152fc5cc1c7b05d0.tar.gz"
+        ]
+      },
+      "descriptor": {
+        "fields": [
+          {
+            "key": "yt_dlp_path",
+            "label": "yt-dlp path (optional)",
+            "field_type": "text",
+            "required": false
+          },
+          {
+            "key": "whisper_path",
+            "label": "whisper-ctranslate2 path (optional)",
+            "field_type": "text",
+            "required": false
+          }
+        ],
+        "entitlements": {
+          "settings_read": [
+            "yt_dlp_path",
+            "whisper_path"
+          ],
+          "network": [
+            "youtube.com",
+            "tiktok.com"
+          ],
+          "sends": [
+            {
+              "to": "youtube.com",
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "The video URL, and nothing else. Fetching the page and its caption track is an ordinary anonymous request — no account, no conversation, no file contents are attached to it."
+            },
+            {
+              "to": "tiktok.com",
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "The video URL, and nothing else — the same anonymous fetch as YouTube."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "zillow",
+      "label": "Zillow",
+      "description": "Zillow listings, Zestimates and comparables, installed at runtime — no rebuild.",
+      "icon": "home",
+      "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-zillow",
+      "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-zillow/archive/a1b9867aefb478e5c3aac930ab79116044ac0d7e.tar.gz"
+        ]
+      },
+      "descriptor": {
+        "fields": [
+          {
+            "key": "zillow_rapidapi_key",
+            "label": "RapidAPI Key",
+            "field_type": "password",
+            "required": true
+          }
+        ],
+        "entitlements": {
+          "settings_read": [
+            "zillow_rapidapi_key"
+          ],
+          "network": [
+            "real-time-zillow-data.p.rapidapi.com"
+          ],
+          "sends": [
+            {
+              "to": "real-time-zillow-data.p.rapidapi.com",
+              "classes": [
+                "search_queries",
+                "location"
+              ],
+              "purpose": "The place you are asking about — a city, ZIP or street address — plus any price and bedroom filters. Addresses are listed as location and not just as a search phrase, because searching for a home says where you live or intend to. No conversation, file or account data is attached."
+            }
+          ]
+        }
       }
     }
   ]
