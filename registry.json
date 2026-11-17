@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-17T08:18:46Z",
+  "updated_at": "2026-11-17T15:18:56Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -170,9 +170,40 @@
             "wallpaper_provider"
           ],
           "network": [
-            "amazon.com"
+            "amazon.com",
+            "api.open-meteo.com",
+            "basemaps.cartocdn.com",
+            "geocoding-api.open-meteo.com"
           ],
           "sends": [
+            {
+              "classes": [
+                "location"
+              ],
+              "purpose": "A vacation's destination name is looked up to find its coordinates, for the weather card.",
+              "to": "geocoding-api.open-meteo.com"
+            },
+            {
+              "classes": [
+                "location"
+              ],
+              "purpose": "Those coordinates are sent to fetch the destination's current weather.",
+              "to": "api.open-meteo.com"
+            },
+            {
+              "classes": [
+                "location"
+              ],
+              "purpose": "Drawing a vacation's route map fetches the map tiles under every stop, so the places on the route are implied by which tiles are asked for.",
+              "to": "basemaps.cartocdn.com"
+            },
+            {
+              "classes": [
+                "location"
+              ],
+              "purpose": "Generating a vacation's cover photo hands the destination name to your wallpaper provider, and the picture it picks is downloaded from that service's own servers.",
+              "to": "the photo service behind the wallpaper provider you selected (varies by provider)"
+            },
             {
               "classes": [
                 "search_queries"
@@ -205,8 +236,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-family-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "95500d77c8ff9d8dedc7c602ab4abcf4f89f3805eeca432431c2fd9994aade1e",
-        "size_bytes": 7710615
+        "sha256": "74b97d8f9bf4d3ab739f934f14ccf8b5d05346915edabe17b19764029731f46c",
+        "size_bytes": 7709772
       }
     },
     {
@@ -714,6 +745,18 @@
         "entitlements": {
           "settings_read": [
             "tavily_api_key"
+          ],
+          "network": [
+            "api.tavily.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "search_queries"
+              ],
+              "purpose": "The search query, with the box's Tavily key. What comes back — titles, URLs and snippets — is handed to the model as the answer.",
+              "to": "api.tavily.com"
+            }
           ]
         }
       },
@@ -722,8 +765,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-web-search-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "0f72cc2a3b2c9ccafda622336cf3ee450f81231ae3698276b4087193ca22fd69",
-        "size_bytes": 5526962
+        "sha256": "5d858f3c9d33d37618ffb3086a065d225c080664cb2482f2122f4b0d693df86d",
+        "size_bytes": 5524989
       }
     },
     {
@@ -828,6 +871,20 @@
             "gemini_api_key",
             "gemini_default_model"
           ],
+          "network": [
+            "generativelanguage.googleapis.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "prompts",
+                "conversations",
+                "photos"
+              ],
+              "purpose": "`gemini_chat` sends the question and any system prompt, and a photo handed over for analysis goes there too. When Gemini is the selected embedding provider it also receives everything Leo indexes for semantic search — conversations and knowledge entries — as they are written.",
+              "to": "generativelanguage.googleapis.com"
+            }
+          ],
           "graph_scopes": [
             "ai:key"
           ]
@@ -838,8 +895,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-gemini-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "aa6a5a38c16740d0f9ec7faed96da85ad5a0cf63d6c8f83976d71f1dcc517da2",
-        "size_bytes": 5594291
+        "sha256": "cf926b1a3c2631061b80a32dc8e0605ab83446389155d57f509bd8d977dca40c",
+        "size_bytes": 5594209
       }
     },
     {
@@ -931,6 +988,15 @@
         "entitlements": {
           "settings_read": [
             "neutts_service_url"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Every reply Leo speaks aloud is sent there as text to be synthesized. By default that is the leo-tts service on this box, so nothing leaves it; set the Service URL to another machine and the spoken text goes there instead.",
+              "to": "the leo-tts service at your Service URL (this box, unless you point it elsewhere)"
+            }
           ]
         }
       },
@@ -939,8 +1005,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-neutts-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "a239a9f704c2dfee41f7a468583886a506aa5835a4ed5ceffe17b11aa5942282",
-        "size_bytes": 5481046
+        "sha256": "d177a8d18a7843d9758514ea63bf69b33b4786706206330ee77af7eea1a5be0d",
+        "size_bytes": 5481970
       }
     },
     {
@@ -1500,8 +1566,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-runtime-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "a07f004e0c16970c68244b84c12cd26cb63595f6176a3bb90e1d65222c63c976",
-        "size_bytes": 9332
+        "sha256": "71be6732cc85760673bdc34d66f9b22185f94208d2ab3d57ab0500e61f2e4d65",
+        "size_bytes": 9321
       }
     },
     {
@@ -1526,6 +1592,49 @@
             "vercel_team_id",
             "vercel_token"
           ],
+          "network": [
+            "api.netlify.com",
+            "api.pexels.com",
+            "api.unsplash.com",
+            "api.vercel.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "search_queries"
+              ],
+              "purpose": "With an Unsplash key set: the image search terms for a page, with that key, so the builder can pick photos. The photos it uses are then fetched from the server Unsplash names for each one.",
+              "to": "api.unsplash.com"
+            },
+            {
+              "classes": [
+                "search_queries"
+              ],
+              "purpose": "With a Pexels key set: the same search terms, with that key, for the photos Unsplash did not cover — fetched the same way.",
+              "to": "api.pexels.com"
+            },
+            {
+              "classes": [
+                "files"
+              ],
+              "purpose": "Publishing a static site to Netlify uploads every file of the site, with your Netlify token.",
+              "to": "api.netlify.com"
+            },
+            {
+              "classes": [
+                "files"
+              ],
+              "purpose": "Publishing to Vercel uploads every file of the site or framework project, with your Vercel token.",
+              "to": "api.vercel.com"
+            },
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Reading a source site for its facts, or cloning one, fetches its public pages and assets — so the URL you gave goes to whichever server hosts it. Private addresses are refused by name before any request.",
+              "to": "the site you ask it to read or clone (varies by request)"
+            }
+          ],
           "graph_scopes": [
             "knowledge:read",
             "people:read",
@@ -1539,8 +1648,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-sites-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "55c178f75a2f055c2caa60fcaf5311fbb455c3d862bc3f74a56b2ff2ae8bd9af",
-        "size_bytes": 7971364
+        "sha256": "e56494256412f70bcf74c03d20908d3d37e62ad65e05678eaf350d74a15b8b82",
+        "size_bytes": 7975872
       }
     },
     {
@@ -1781,6 +1890,13 @@
               ],
               "purpose": "The video URL, and nothing else — the same anonymous fetch as YouTube.",
               "to": "tiktok.com"
+            },
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Only when a video has no caption track and local transcription is on: its audio is downloaded from whichever server the platform names for it (YouTube's are under googlevideo.com), transcribed on this box, and the audio goes nowhere else. The request carries the video's id, nothing more.",
+              "to": "the video platform's media servers (only when a video has no captions)"
             }
           ]
         }
@@ -1790,8 +1906,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-transcript-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "2236cf78ef190cc563634eed57cad4154bb5f90d8864d2ae801c314188fb72bf",
-        "size_bytes": 5511286
+        "sha256": "7548557238df93d4e5c114ac656a90a176ca74f393cc4aaa8a5dfdf5fb229e92",
+        "size_bytes": 5511066
       }
     },
     {
@@ -1911,6 +2027,18 @@
         "entitlements": {
           "settings_read": [
             "books_suggestions_enabled"
+          ],
+          "network": [
+            "openlibrary.org"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "search_queries"
+              ],
+              "purpose": "Only with suggestions on: each title and author the model proposes is looked up to confirm the book exists and to find its cover. Your own shelf, ratings and notes never leave the box.",
+              "to": "openlibrary.org"
+            }
           ]
         }
       },
@@ -1919,8 +2047,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-books-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "ccb99a226ae7f58191b2e0b3c02a8f8821d150a44564913f5ad55f42e73c2ad3",
-        "size_bytes": 5965622
+        "sha256": "498a2aae3c267c5df9bb1b188e62f15e88f12ebf1b83afba8636903a0cc117e3",
+        "size_bytes": 5963508
       }
     },
     {
