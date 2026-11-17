@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://packages.aurum.academy/schema/registry.schema.json",
+  "$id": "https://leo-registry.pages.dev/schema/registry.schema.json",
   "title": "Leo Package Registry",
   "description": "Catalog of installable data-driven (no-rebuild) Leo packages.",
   "type": "object",
