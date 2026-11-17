@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-08-08T00:00:00Z",
+  "updated_at": "2026-11-17T05:38:15Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -826,6 +826,14 @@
             "api.openweathermap.org"
           ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-weather",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-weather-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "cf16b3c7165ffa489556ea9ccad7eec51547d5e47920aabf8e48b251dcb16f5a",
+        "size_bytes": 5777401
       }
     },
     {
