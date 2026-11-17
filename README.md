@@ -8,16 +8,41 @@ Leo.
 
 ## Hosting
 
-Source of truth is this git repo. It's published to **Cloudflare Pages** at:
+Source of truth is this git repo — the owner ruled so on 2026-11-17. Every push
+to `main` that touches `registry.json`, `schema/` or `bundles/` runs
+`.github/workflows/deploy.yml`, which stages `public/` and deploys it to the
+`leo-registry` Cloudflare Pages project:
 
 ```
-https://packages.aurum.academy/registry.json        # the catalog
-https://packages.aurum.academy/bundles/<pkg>/ui.js  # frontend bundles
+https://leo-registry.pages.dev/registry.json        # the catalog
+https://leo-registry.pages.dev/bundles/<pkg>/ui.js  # frontend bundles
+https://leo-registry.pages.dev/schema/registry.schema.json
 ```
+
+**The URLs this section used to name — `packages.aurum.academy/...` — are
+dead.** Measured 2026-11-17: the hostname does not resolve (`curl` exits 6),
+and nothing in the Leo tree or in `scripts/validate.py` resolves the schema by
+its `$id`, which is why three dead URLs sat here unnoticed. There is no custom
+domain on the Pages project today; adding one is a Cloudflare change and this
+file plus `DEFAULT_REGISTRY_URL` in the Leo tree are the two places to update
+if it ever gets one.
+
+A second catalog exists and is not this one: the store-admin Worker at
+`registry.leoconnect.io` serves its own D1 — 18 entries, 0 hosted, newest row
+2026-10-21, measured 2026-11-17 — and it is what the hub's compiled
+`DEFAULT_REGISTRY_URL` still names. Its review console, grading and artwork
+stay; its catalog does not. The hub's repoint to the URL above is ruled and
+lands once this catalog is no weaker than those 18 live entries.
 
 `registry.json` is a static, cacheable, public file. It is *not* secret — a
 catalog isn't sensitive. Installation is gated by each Leo instance's own auth,
 not by hiding this URL. Integrity is enforced per-bundle via `sha256` (see below).
+
+**`hosted` entries are not hand-written.** `leo packages publish <name>|--all`
+on the hub writes them from the built artifact — pkgname, version, url, sha256
+and entitlements read out of the `.pkg.tar.zst` — so an edited `hosted` block
+is drift the next publish reports. Edit by hand only for the dynamic kinds
+below.
 
 ## Adding a package
 
@@ -58,7 +83,7 @@ not by hiding this URL. Integrity is enforced per-bundle via `sha256` (see below
 
    ```jsonc
    "bundle": {
-     "url": "https://packages.aurum.academy/bundles/acme/ui.js",
+     "url": "https://leo-registry.pages.dev/bundles/acme/ui.js",
      "sha256": "<64-hex sha256 of the file>"     // REQUIRED — Leo verifies before install
    }
    ```
