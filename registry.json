@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-17T16:41:00Z",
+  "updated_at": "2026-11-17T16:44:19Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -903,20 +903,39 @@
     {
       "name": "gmail",
       "label": "Gmail",
-      "description": "Gmail API access for reading and sending email.",
+      "description": "Gmail as a mail provider for the Inbox — sync and flag write-through, installed at runtime.",
       "icon": "mail",
       "icon_url": "https://leo-registry.pages.dev/icons/gmail.png?v=61250b4d42abe3a2",
       "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-gmail",
       "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-gmail/archive/f89902c1d8cc44093d35e522fb6b305b1e196c63.tar.gz"
+        ]
+      },
       "descriptor": {
+        "provides": [
+          "mail"
+        ],
+        "oauth_provider": "google",
         "entitlements": {
-          "settings_read": [
-            "gmail_client_id",
-            "gmail_client_secret"
-          ],
           "network": [
-            "oauth2.googleapis.com",
             "gmail.googleapis.com"
+          ],
+          "sends": [
+            {
+              "to": "gmail.googleapis.com",
+              "classes": [
+                "mail",
+                "credentials"
+              ],
+              "purpose": "Your Google account token, and the read/starred/archived/trashed changes you make in the Inbox so they land in Gmail too. Mail travels one way — Google's servers to your hub — and nothing from Leo's other packages is attached. The token is minted by Leo per call from the Google account you already connected; this package holds no OAuth app of its own."
+            }
           ]
         }
       }
@@ -1074,18 +1093,48 @@
     {
       "name": "pexels",
       "label": "Pexels",
-      "description": "Provides wallpaper images from Pexels for the chat background.",
+      "description": "Wallpaper photos from Pexels, installed at runtime — no rebuild.",
       "icon": "image",
       "icon_url": "https://leo-registry.pages.dev/icons/pexels.png?v=28878955372d85c7",
       "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-pexels",
       "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-pexels/archive/236e4fcc1ad4d29c2b67aec5dd4d175eacdcfdb4.tar.gz"
+        ]
+      },
       "descriptor": {
+        "provides": [
+          "wallpaper"
+        ],
+        "fields": [
+          {
+            "key": "pexels_api_key",
+            "label": "API Key",
+            "field_type": "password",
+            "required": true
+          }
+        ],
         "entitlements": {
           "settings_read": [
             "pexels_api_key"
           ],
           "network": [
             "api.pexels.com"
+          ],
+          "sends": [
+            {
+              "to": "api.pexels.com",
+              "classes": [
+                "search_queries"
+              ],
+              "purpose": "The wallpaper search phrases and nothing else — a few words describing a scene. No conversation, file or account data is attached."
+            }
           ]
         }
       }
@@ -1176,22 +1225,50 @@
     {
       "name": "recraft",
       "label": "Recraft",
-      "description": "Professional AI image generation for icons, logos, and vector graphics.",
-      "icon": "paint-brush",
+      "description": "Professional image generation, vectorizing and background removal — installed at runtime.",
+      "icon": "palette",
       "icon_url": "https://leo-registry.pages.dev/icons/recraft.png?v=257297d6f2096184",
       "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-recraft",
       "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-recraft/archive/50425ec385726ab873db218644f5dbc4c9268eb5.tar.gz"
+        ]
+      },
       "descriptor": {
+        "provides": [
+          "image_gen"
+        ],
+        "fields": [
+          {
+            "key": "recraft_api_key",
+            "label": "API Key",
+            "field_type": "password",
+            "required": true
+          }
+        ],
         "entitlements": {
           "settings_read": [
-            "recraft_api_key",
-            "recraft_default_model"
+            "recraft_api_key"
           ],
           "network": [
-            "external.api.recraft.ai",
-            "img.recraft.ai"
+            "external.api.recraft.ai"
           ],
-          "storage_mb": 200
+          "sends": [
+            {
+              "to": "external.api.recraft.ai",
+              "classes": [
+                "prompts",
+                "photos"
+              ],
+              "purpose": "The prompt you asked for an image from, and — for vectorize and background removal — the image file you pointed at. Nothing else from Leo travels with it."
+            }
+          ]
         }
       }
     },
@@ -1212,19 +1289,49 @@
     },
     {
       "name": "tavily",
-      "label": "Web Search",
-      "description": "Enables the web_search tool for research tasks and chat.",
+      "label": "Web Search (Tavily)",
+      "description": "Tavily web search, installed at runtime — no rebuild.",
       "icon": "search",
       "icon_url": "https://leo-registry.pages.dev/icons/tavily.png?v=4b6e290f16c30106",
       "version": "1.0.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-tavily",
       "category": "package",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "https://github.com/TheBananaStand/leo-tavily/archive/c36dc32c8cc714a99b6e463acd56045c09b1dc02.tar.gz"
+        ]
+      },
       "descriptor": {
+        "provides": [
+          "web_search"
+        ],
+        "fields": [
+          {
+            "key": "tavily_api_key",
+            "label": "API Key",
+            "field_type": "password",
+            "required": true
+          }
+        ],
         "entitlements": {
           "settings_read": [
             "tavily_api_key"
           ],
           "network": [
             "api.tavily.com"
+          ],
+          "sends": [
+            {
+              "to": "api.tavily.com",
+              "classes": [
+                "search_queries"
+              ],
+              "purpose": "The search text and nothing else. Claude writes the query from your conversation, so it can quote what you said — but no transcript, file or account data is attached to it."
+            }
           ]
         }
       }
@@ -1499,7 +1606,7 @@
       "description": "Text-to-speech via ElevenLabs, installed at runtime — no rebuild.",
       "icon": "volume-2",
       "icon_url": "https://leo-registry.pages.dev/icons/leo-elevenlabs-mcp.png?v=8252d66b35808f45",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": "TheBananaStand",
       "homepage": "https://github.com/TheBananaStand/leo-elevenlabs-mcp",
       "category": "package",
@@ -1508,7 +1615,7 @@
         "command": "npx",
         "args": [
           "-y",
-          "https://github.com/TheBananaStand/leo-elevenlabs-mcp/archive/e856ed69f4c15036fdd454ce94a2ccc82be9491e.tar.gz"
+          "https://github.com/TheBananaStand/leo-elevenlabs-mcp/archive/fdb695fc5b1490602e5892191f6252b32fe8310b.tar.gz"
         ]
       },
       "descriptor": {
