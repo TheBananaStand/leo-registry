@@ -35,7 +35,8 @@
         "mcp": { "$ref": "#/$defs/mcp" },
         "descriptor": { "$ref": "#/$defs/descriptor" },
         "bundle": { "$ref": "#/$defs/bundle" },
-        "hosted": { "$ref": "#/$defs/hosted" }
+        "hosted": { "$ref": "#/$defs/hosted" },
+        "shared": { "type": "boolean", "description": "A shared runtime artifact (`leo-runtime`, `leo-duckdb`): installed only because another entry's artifact names it in `depends=`, never listed or offered as an app. A hub resolves each `.PKGINFO` `depend =` by pkgname against the hosted blocks of entries marked this way, so every byte it installs is hashed by the catalog and there is still no `depends` field on the wire (ruled 2026-11-16). Top-level rather than inside `hosted`, because it says what the ENTRY is, which a store reads before it reads how to install it. A shared entry's `name` is its pkgname." }
       }
     },
     "mcp": {
@@ -99,6 +100,21 @@
           "type": "array",
           "items": { "type": "string" },
           "description": "Settings keys (e.g. API keys) the package may read — and only these."
+        },
+        "graph_scopes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Graph scopes the package's token carries (`people:read`, `satellites:operate`, …) — what `provision-host` mints beyond `settings:read`. Disclosed here because a hosted artifact declares them and § 5 of docs/package-store-distribution.md refuses an install whose artifact grants what the catalog never showed."
+        },
+        "oauth_tokens": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "OAuth providers (`google`) whose USER tokens the package may be handed — permission to act as the user against a third party, not a connect-flow hint."
+        },
+        "satellite_capabilities": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Satellite capabilities (`browser`, `simulator`, …) the package may ask the hub to drive. `satellites:operate` in graph_scopes grants the verb; this bounds the subject."
         },
         "network": {
           "type": "array",
