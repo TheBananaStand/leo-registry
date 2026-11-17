@@ -57,10 +57,15 @@ def main() -> int:
             continue
         name = p.get("name")
         pkgname = hosted.get("pkgname")
-        if pkgname != f"leo-{name}":
+        # A shared artifact's entry IS its pkgname. Every other entry's pkgname
+        # is `leo-<package directory>`, and the directory is the catalog name
+        # with `_` read as `-`: the catalog name is what hubs key on and is
+        # never rewritten (`fetch_image` installs as `leo-fetch-image`).
+        expected_pkg = name if p.get("shared") is True else f"leo-{str(name).replace('_', '-')}"
+        if pkgname != expected_pkg:
             errors.append(
                 f"{name}: hosted.pkgname is {pkgname!r}, expected "
-                f"'leo-{name}' (since the 2026-11-15 rename) — it would be served under one name and "
+                f"{expected_pkg!r} (since the 2026-11-15 rename) — it would be served under one name and "
                 f"land on disk under another"
             )
         expected = f"{pkgname}-{hosted.get('version')}-{hosted.get('arch')}.pkg.tar.zst"
@@ -71,6 +76,12 @@ def main() -> int:
                 f"arch describe {expected!r} — the hash pins the bytes, not "
                 f"which package they are"
             )
+
+    # 4. `shared: true` means "installed only as a dependency", which is only
+    #    true of an entry that HAS an artifact to install.
+    for p in registry.get("packages", []):
+        if p.get("shared") is True and not isinstance(p.get("hosted"), dict):
+            errors.append(f"{p.get('name')}: shared: true with no hosted block — nothing to install")
 
     if errors:
         print(f"registry.json INVALID ({len(errors)} problem(s)):\n", file=sys.stderr)
