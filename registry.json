@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-17T05:38:15Z",
+  "updated_at": "2026-11-17T08:18:46Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -18,7 +18,43 @@
       "icon": "brain",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "anthropic_api_key"
+          ],
+          "network": [
+            "api.anthropic.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "prompts",
+                "conversations",
+                "files",
+                "photos",
+                "mail",
+                "calendar",
+                "contacts",
+                "financial",
+                "health",
+                "location",
+                "home_state"
+              ],
+              "purpose": "Claude answers every chat turn and picks every tool call, so it reads back whatever those tools return — anything an enabled package can fetch may end up in the transcript. Sent by the Claude CLI subprocess this package configures under your own subscription, except for an account with its own pasted API key, whose turns go straight to the Messages API over HTTPS instead and reach no tools at all.",
+              "to": "api.anthropic.com"
+            }
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-anthropic",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-anthropic-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "1bdc1e48e9fde8abf70655b8e8edff9653a9db8950b5309df663ed1cafb3c4c6",
+        "size_bytes": 5565214
+      }
     },
     {
       "name": "apns",
@@ -64,7 +100,32 @@
       "icon": "currency-dollar",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "expensive_turn_usd",
+            "household_degrade_at_percent",
+            "household_monthly_limit_usd",
+            "model_catalog",
+            "spend_alert_cooldown_hours",
+            "spend_alert_floor_usd",
+            "spend_alert_multiplier",
+            "user_spend_limit_usd",
+            "user_spend_window_hours"
+          ],
+          "graph_scopes": [
+            "costs:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-costs",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-costs-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "16f67583e83ed2e58acf27a4aed2f43c74c07437e95d8ee9b5b8ccf999bf2dc7",
+        "size_bytes": 5808162
+      }
     },
     {
       "name": "db_query",
@@ -100,7 +161,53 @@
       "icon": "users",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "family_model",
+            "model",
+            "openai_api_key",
+            "wallpaper_provider"
+          ],
+          "network": [
+            "amazon.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "search_queries"
+              ],
+              "purpose": "Search terms and ASINs, when you search or look up a product — driven through a browser session on the Mac satellite, so nothing else in that session (account, cookies) is read back.",
+              "to": "amazon.com"
+            },
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Looking up or saving an item by URL fetches that exact page — via the satellite browser, or directly from this hub to grab a product image — so the URL goes to whichever site it points at.",
+              "to": "the retailer named in a product URL you give it (varies by call)"
+            }
+          ],
+          "graph_scopes": [
+            "media:read",
+            "media:write",
+            "satellites:operate",
+            "wallpapers:search",
+            "settings:read:wallpaper_provider"
+          ],
+          "satellite_capabilities": [
+            "browser"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-family",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-family-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "95500d77c8ff9d8dedc7c602ab4abcf4f89f3805eeca432431c2fd9994aade1e",
+        "size_bytes": 7710615
+      }
     },
     {
       "name": "feed",
@@ -109,7 +216,37 @@
       "icon": "rss",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "notification_sensitivity",
+            "oauth_public_base_url",
+            "response_style"
+          ],
+          "graph_scopes": [
+            "notifications:write",
+            "push:send",
+            "releases:read",
+            "releases:write",
+            "vectors:write",
+            "feed:read",
+            "feed:write",
+            "notifications:read",
+            "people:read",
+            "media:write",
+            "media:read",
+            "settings:read:response_style"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-feed",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-feed-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "d2bad236c9a31150c39ea56dc1efb4f3d7cbf78325a598ad3fd0dff5f46bb8e8",
+        "size_bytes": 8362459
+      }
     },
     {
       "name": "fetch_image",
@@ -118,7 +255,21 @@
       "icon": "photo",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "graph_scopes": [
+            "gallery:write"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-fetch-image",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-fetch-image-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "7c21b31c8bd102143567b5f25a6b51e44715ae1d9c2d63600f2bae56d8f1678c",
+        "size_bytes": 5470935
+      }
     },
     {
       "name": "files",
@@ -127,7 +278,26 @@
       "icon": "folder",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "package_gdrive_enabled"
+          ],
+          "graph_scopes": [
+            "files:read",
+            "files:write",
+            "settings:read:package_gdrive_enabled"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-files",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-files-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "a806013f6a16f35606125b3c7c0658bd887a47e665c284d4f59d25ef16506cbd",
+        "size_bytes": 5911663
+      }
     },
     {
       "name": "finance",
@@ -136,7 +306,45 @@
       "icon": "currency-dollar",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "plaid_client_id",
+            "plaid_env",
+            "plaid_link",
+            "plaid_max_calls_per_day",
+            "plaid_secret"
+          ],
+          "network": [
+            "plaid.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "financial"
+              ],
+              "purpose": "Bank credentials and account data flow through Plaid's API to link accounts and sync balances and transactions.",
+              "to": "plaid.com"
+            }
+          ],
+          "graph_scopes": [
+            "finance:read",
+            "finance:write",
+            "plaid:link",
+            "plaid:sync",
+            "feed:post",
+            "owner:interrupt"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-finance",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-finance-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "4a9f115fe4f978f894de90c7bd5509e4129cc1daa1fe101ae85ab1c4adbf317a",
+        "size_bytes": 6358299
+      }
     },
     {
       "name": "gallery",
@@ -166,10 +374,27 @@
       "descriptor": {
         "entitlements": {
           "settings_read": [
-            "homeassistant_url",
-            "homeassistant_token"
+            "dashboard_config",
+            "ha_discovery_dismissed",
+            "ha_discovery_seen_flow_ids",
+            "homeassistant_token",
+            "homeassistant_url"
+          ],
+          "graph_scopes": [
+            "feed:post",
+            "settings:read:dashboard_config",
+            "settings:read:ha_discovery_dismissed",
+            "settings:read:ha_discovery_seen_flow_ids"
           ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-homeassistant",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-homeassistant-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "bb68cee1777f4938090a6ba92c66cbbe834806fc124387cc8c7a9af57306ec4d",
+        "size_bytes": 6563672
       }
     },
     {
@@ -219,6 +444,14 @@
             "fast_inference_local_model"
           ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-local",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-local-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "122a92d4fcc4e1ca32b63363fc791951ad90113b9c16e6401e9ca4b72d48dc25",
+        "size_bytes": 5505900
       }
     },
     {
@@ -246,7 +479,53 @@
       "icon": "newspaper",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "network": [
+            "api.anthropic.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Each source you add is fetched on a schedule, so that feed's URL — and therefore the fact that you read it — goes to the site serving it.",
+              "to": "the news sites whose feeds you have added (varies by source)"
+            },
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Articles missing a picture have their own page fetched for its preview image, so that article's URL goes to whichever site published it.",
+              "to": "the sites articles link to (varies by article)"
+            },
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "Building a digest hands the model the titles and snippets of recent articles to rank and summarise. They are public feed contents, not anything of yours.",
+              "to": "api.anthropic.com"
+            }
+          ],
+          "graph_scopes": [
+            "people:read"
+          ],
+          "inference": {
+            "classes": [
+              "prompts"
+            ],
+            "purpose": "summarising and ranking the articles your news feeds returned, so the daily digest leads with the ones worth your time"
+          }
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-news",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-news-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "16843a08d59bb0b584bfb81336cf391e24c2dc8162559a789fcc000408b23c67",
+        "size_bytes": 6213292
+      }
     },
     {
       "name": "projects",
@@ -345,7 +624,15 @@
       "icon": "clipboard-document-list",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {},
+      "hosted": {
+        "pkgname": "leo-tasks",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-tasks-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "111b38543214cbcdacc84495f78a8f5439a1c01fa2b8c0e9e1d95b25152601ca",
+        "size_bytes": 5706928
+      }
     },
     {
       "name": "user_locations",
@@ -354,7 +641,22 @@
       "icon": "map-pin",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "graph_scopes": [
+            "locations:read",
+            "people:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-user-locations",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-user-locations-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "7d820044308cd20a741cbf0445eab711aec4c068dda4cdfcde2be11fe25eefbc",
+        "size_bytes": 5568251
+      }
     },
     {
       "name": "vacation",
@@ -391,7 +693,15 @@
       "icon": "globe-alt",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {},
+      "hosted": {
+        "pkgname": "leo-web-fetch",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-web-fetch-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "2a3b1a1ed6627f4f263f74d9bb66f94a872c9e739b8f92247de1ae34cdf98d89",
+        "size_bytes": 5782098
+      }
     },
     {
       "name": "web_search",
@@ -400,7 +710,21 @@
       "icon": "magnifying-glass",
       "version": "1.0.0",
       "category": "core",
-      "descriptor": {}
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "tavily_api_key"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-web-search",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-web-search-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "0f72cc2a3b2c9ccafda622336cf3ee450f81231ae3698276b4087193ca22fd69",
+        "size_bytes": 5526962
+      }
     },
     {
       "name": "windows",
@@ -501,12 +825,21 @@
       "descriptor": {
         "entitlements": {
           "settings_read": [
-            "gemini_api_key"
+            "gemini_api_key",
+            "gemini_default_model"
           ],
-          "network": [
-            "generativelanguage.googleapis.com"
+          "graph_scopes": [
+            "ai:key"
           ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-gemini",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-gemini-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "aa6a5a38c16740d0f9ec7faed96da85ad5a0cf63d6c8f83976d71f1dcc517da2",
+        "size_bytes": 5594291
       }
     },
     {
@@ -544,8 +877,29 @@
           "network": [
             "api.x.ai"
           ],
-          "storage_mb": 200
+          "sends": [
+            {
+              "classes": [
+                "search_queries",
+                "prompts"
+              ],
+              "purpose": "`grok_search` sends the search text, `grok_chat` the question, and `grok_image` the image prompt. All three are composed by Claude from the conversation, so they can quote what you said — nothing else is attached.",
+              "to": "api.x.ai"
+            }
+          ],
+          "graph_scopes": [
+            "ai:key",
+            "gallery:write"
+          ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-grok",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-grok-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "d6e7f59e201adf23ab32693adddda2f24d66cae301c555ed3a09c83da12f7935",
+        "size_bytes": 5611439
       }
     },
     {
@@ -577,11 +931,16 @@
         "entitlements": {
           "settings_read": [
             "neutts_service_url"
-          ],
-          "network": [
-            "configured:neutts_service_url"
           ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-neutts",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-neutts-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "a239a9f704c2dfee41f7a468583886a506aa5835a4ed5ceffe17b11aa5942282",
+        "size_bytes": 5481046
       }
     },
     {
@@ -612,13 +971,36 @@
           "settings_read": [
             "openai_api_key",
             "openai_default_model",
-            "openai_image_model"
+            "openai_image_model",
+            "openai_tts_voice"
           ],
           "network": [
             "api.openai.com"
           ],
-          "storage_mb": 50
+          "sends": [
+            {
+              "classes": [
+                "prompts",
+                "conversations",
+                "photos"
+              ],
+              "purpose": "Text you hand it to speak, embed, or turn into an image, and any photo sent for analysis. When OpenAI is the selected embedding provider it also receives everything Leo indexes for semantic search — conversations and knowledge entries — as they are written.",
+              "to": "api.openai.com"
+            }
+          ],
+          "graph_scopes": [
+            "ai:key",
+            "gallery:write"
+          ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-openai",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-openai-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "3cc354f522003fe05390337c5eb47e73ac54fe9eb0f1b10a8150a193548f63c0",
+        "size_bytes": 5724158
       }
     },
     {
@@ -686,11 +1068,18 @@
       "descriptor": {
         "entitlements": {
           "settings_read": [
-            "piper_voice",
-            "piper_speaker"
-          ],
-          "storage_mb": 150
+            "piper_speaker",
+            "piper_voice"
+          ]
         }
+      },
+      "hosted": {
+        "pkgname": "leo-piper",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-piper-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "b3d5eac45fc631bd3c6516d794de79912f62864b199fb728c1247117ac89a20a",
+        "size_bytes": 5489643
       }
     },
     {
@@ -817,13 +1206,36 @@
         "entitlements": {
           "settings_read": [
             "weather_default_location",
-            "weather_units",
-            "weather_owm_api_key"
+            "weather_owm_api_key",
+            "weather_units"
           ],
           "network": [
             "api.open-meteo.com",
-            "geocoding-api.open-meteo.com",
-            "api.openweathermap.org"
+            "api.openweathermap.org",
+            "geocoding-api.open-meteo.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "location"
+              ],
+              "purpose": "A place name you ask about is looked up to find its coordinates.",
+              "to": "geocoding-api.open-meteo.com"
+            },
+            {
+              "classes": [
+                "location"
+              ],
+              "purpose": "The coordinates of that place are sent to fetch its forecast.",
+              "to": "api.open-meteo.com"
+            },
+            {
+              "classes": [
+                "location"
+              ],
+              "purpose": "Only with an OpenWeatherMap key set: the coordinates are sent there instead, for the longer forecast.",
+              "to": "api.openweathermap.org"
+            }
           ]
         }
       },
@@ -832,8 +1244,8 @@
         "version": "1.4.0-1",
         "arch": "x86_64",
         "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-weather-1.4.0-1-x86_64.pkg.tar.zst",
-        "sha256": "cf16b3c7165ffa489556ea9ccad7eec51547d5e47920aabf8e48b251dcb16f5a",
-        "size_bytes": 5777401
+        "sha256": "6767140949980b504af2827cb3a4e6216558398d25227e57ee83d59c8f96acfc",
+        "size_bytes": 5765049
       }
     },
     {
@@ -1072,6 +1484,679 @@
             }
           ]
         }
+      }
+    },
+    {
+      "name": "leo-runtime",
+      "label": "Leo package runtime",
+      "description": "The alpm hook and socket enabler every hosted Leo package depends on.",
+      "icon": "shippingbox",
+      "version": "1.4.0",
+      "category": "core",
+      "shared": true,
+      "descriptor": {},
+      "hosted": {
+        "pkgname": "leo-runtime",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-runtime-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "a07f004e0c16970c68244b84c12cd26cb63595f6176a3bb90e1d65222c63c976",
+        "size_bytes": 9332
+      }
+    },
+    {
+      "name": "sites",
+      "label": "Sites",
+      "description": "Build real websites — from a description, from markdown — as plain HTML or a Next.js, Astro or Gatsby project, published to Vercel or Netlify.",
+      "icon": "globe",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "model",
+            "model_catalog",
+            "netlify_token",
+            "oauth_public_base_url",
+            "pexels_api_key",
+            "sites_model",
+            "tunnel_enabled",
+            "tunnel_hostname",
+            "unsplash_access_key",
+            "vercel_team_id",
+            "vercel_token"
+          ],
+          "graph_scopes": [
+            "knowledge:read",
+            "people:read",
+            "notifications:write",
+            "calendar:write"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-sites",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-sites-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "55c178f75a2f055c2caa60fcaf5311fbb455c3d862bc3f74a56b2ff2ae8bd9af",
+        "size_bytes": 7971364
+      }
+    },
+    {
+      "name": "studio",
+      "label": "Studio",
+      "description": "Everything you've made, and what each thing was made from.",
+      "icon": "photo.stack",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "fal_api_key",
+            "model",
+            "model_catalog",
+            "provider",
+            "studio_model"
+          ],
+          "network": [
+            "fal.run"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "photos"
+              ],
+              "purpose": "The image being edited, and the instruction for the edit — sent only when a generative op runs (remove background, inpaint, upscale, generative fill). Parametric edits never leave the device.",
+              "to": "fal.run"
+            }
+          ],
+          "graph_scopes": [
+            "gallery:read",
+            "gallery:write",
+            "knowledge:file-own"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-studio",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-studio-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "41eedcc0fe8ed86687538b1622dcf1384b4e48c1926545552c79a59972a2f429",
+        "size_bytes": 10541729
+      }
+    },
+    {
+      "name": "desk",
+      "label": "Desk",
+      "description": "Standing analysis of anything Leo already holds — build a desk out of beats and it reports what changed.",
+      "icon": "chart.line.uptrend.xyaxis",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "graph_scopes": [
+            "conversations:read",
+            "conversations:write",
+            "finance:read",
+            "knowledge:read",
+            "gallery:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-desk",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-desk-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "0629961c7028d9202ab3d81e49f3e17bf0f691866d2a850761f7ebf4d5f1e57f",
+        "size_bytes": 6732198
+      }
+    },
+    {
+      "name": "notes",
+      "label": "Notes",
+      "description": "Fast, private note-taking — great on the desktop, Apple Pencil on iPad.",
+      "icon": "note.text",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "model",
+            "model_catalog",
+            "notes_model"
+          ],
+          "graph_scopes": [
+            "people:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-notes",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-notes-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "8b945076224234fdeecbde0b5364a0770eb877cd90c93d4570d4f8df1b5bda41",
+        "size_bytes": 6383634
+      }
+    },
+    {
+      "name": "music",
+      "label": "Music",
+      "description": "One library across Apple Music, Spotify, YouTube and Amazon Music, with a full-screen Theater Mode.",
+      "icon": "music.note",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "music_crossfade_seconds",
+            "music_theater_keep_awake",
+            "music_visualizer_style"
+          ],
+          "graph_scopes": [
+            "people:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-music",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-music-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "993fd9d34ea9b375a1ffd6dd5fb381a0f19ba6e7f56991824d3927d83370ac7a",
+        "size_bytes": 6228117
+      }
+    },
+    {
+      "name": "canvas",
+      "label": "Canvas",
+      "description": "Draw vector graphics — render LVG documents to PNG or SVG.",
+      "icon": "paint-brush",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {},
+      "hosted": {
+        "pkgname": "leo-canvas",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-canvas-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "4e1be93ab17290175acd7cb7ebf01390e034f40ca710d7a83ec601e864e5073a",
+        "size_bytes": 6491555
+      }
+    },
+    {
+      "name": "github",
+      "label": "GitHub",
+      "description": "Your GitHub account in Leo: repos, issues, pull requests and notifications.",
+      "icon": "chevron.left.forwardslash.chevron.right",
+      "version": "1.4.0",
+      "category": "package",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "github_account",
+            "github_client_id",
+            "github_client_secret"
+          ],
+          "network": [
+            "api.github.com",
+            "github.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "search_queries",
+                "prompts"
+              ],
+              "purpose": "Search terms, and the issue, comment and pull-request text you ask Leo to post, go to GitHub under your own account. Repositories, issues, pull requests, commits, file contents and notifications are read back. Nothing from other Leo packages is sent.",
+              "to": "api.github.com"
+            },
+            {
+              "classes": [
+                "credentials"
+              ],
+              "purpose": "Exchanges the authorization code for your account's token when you press Connect. Nothing else goes here.",
+              "to": "github.com"
+            }
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-github",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-github-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "ecc521e8a75ee0ebf149aafe4dad7059504120381377608fa7bb1a9fa912f352",
+        "size_bytes": 5782563
+      }
+    },
+    {
+      "name": "shortcuts",
+      "label": "Shortcuts",
+      "description": "Put any Leo section on your iPhone home screen as its own icon.",
+      "icon": "apps.iphone",
+      "version": "1.4.0",
+      "category": "package",
+      "descriptor": {},
+      "hosted": {
+        "pkgname": "leo-shortcuts",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-shortcuts-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "e3235ac09e766e7951c283fec3af416d2e6f1dd7ef559fc4d4d1c0541562dbb8",
+        "size_bytes": 5498766
+      }
+    },
+    {
+      "name": "transcript",
+      "label": "Transcript",
+      "description": "Pull the transcript out of a YouTube or TikTok URL.",
+      "icon": "closed-captioning",
+      "version": "1.4.0",
+      "category": "package",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "whisper_path",
+            "yt_dlp_path"
+          ],
+          "network": [
+            "tiktok.com",
+            "youtube.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "The video URL, and nothing else. Fetching the page and its caption track is an ordinary anonymous request — no account, no conversation, no file contents are attached to it.",
+              "to": "youtube.com"
+            },
+            {
+              "classes": [
+                "prompts"
+              ],
+              "purpose": "The video URL, and nothing else — the same anonymous fetch as YouTube.",
+              "to": "tiktok.com"
+            }
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-transcript",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-transcript-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "2236cf78ef190cc563634eed57cad4154bb5f90d8864d2ae801c314188fb72bf",
+        "size_bytes": 5511286
+      }
+    },
+    {
+      "name": "inbox",
+      "label": "Inbox",
+      "description": "Your mail — from whichever providers are connected.",
+      "icon": "envelope",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "graph_scopes": [
+            "email:read",
+            "mail:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-inbox",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-inbox-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "2b3f8b9f02a1e588084077179d3c84b253afcc68778c00cf559af454d8a4364e",
+        "size_bytes": 6067864
+      }
+    },
+    {
+      "name": "memory",
+      "label": "Memory",
+      "description": "What Leo remembers from one run to the next.",
+      "icon": "brain",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "model",
+            "model_catalog"
+          ],
+          "graph_scopes": [
+            "people:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-memory",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-memory-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "8b07adc6292ad161154c0e573f5da11b2af416af3a441fb2aafb80cb2a99f891",
+        "size_bytes": 6945897
+      }
+    },
+    {
+      "name": "platform",
+      "label": "Platform",
+      "description": "Core platform primitives: open native windows and send push notifications.",
+      "icon": "layout",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "notification_sensitivity"
+          ],
+          "graph_scopes": [
+            "notifications:read",
+            "notifications:write"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-platform",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-platform-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "ee837475d389640daadeeafe42db4374b6b22312cc91e51ce413bb18fc0594c9",
+        "size_bytes": 6060419
+      }
+    },
+    {
+      "name": "office",
+      "label": "Documents",
+      "description": "A word processor and your PDF library, with Sheets (a spreadsheet) alongside it.",
+      "icon": "document-text",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "model",
+            "office_model"
+          ],
+          "graph_scopes": [
+            "people:read",
+            "vectors:write"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-office",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-office-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "e9cb2ca80c4079a4d38b197d90e2f5270234c6aee812eb4856ca36d104d099b3",
+        "size_bytes": 10826227
+      }
+    },
+    {
+      "name": "books",
+      "label": "Books & Audiobooks",
+      "description": "Log what you read and listen to, rate it, and get taste-aware suggestions.",
+      "icon": "book-open",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "books_suggestions_enabled"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-books",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-books-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "ccb99a226ae7f58191b2e0b3c02a8f8821d150a44564913f5ad55f42e73c2ad3",
+        "size_bytes": 5965622
+      }
+    },
+    {
+      "name": "google",
+      "label": "Google",
+      "description": "Gmail, Drive and Calendar on one Google account.",
+      "icon": "google",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "email_notify_categories",
+            "gmail_account",
+            "gmail_client_id",
+            "gmail_client_secret",
+            "gmail_push_topic",
+            "gmail_realtime_seconds",
+            "google_calendar_enabled",
+            "google_drive_enabled",
+            "google_mail_enabled",
+            "oauth_public_base_url",
+            "tunnel_hostname"
+          ],
+          "network": [
+            "gmail.googleapis.com",
+            "oauth2.googleapis.com",
+            "www.googleapis.com"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "mail"
+              ],
+              "purpose": "Reads the messages in your mailbox and sends the ones you write. Mail you send from Leo goes to Google to be delivered, as it would from any mail app.",
+              "to": "gmail.googleapis.com"
+            },
+            {
+              "classes": [
+                "calendar",
+                "files"
+              ],
+              "purpose": "Reads the events in your Google calendars and sends back the ones you create or edit in Leo, and creates and reads the Drive files Leo itself made. It cannot see the rest of your Drive.",
+              "to": "www.googleapis.com"
+            },
+            {
+              "classes": [
+                "credentials"
+              ],
+              "purpose": "Exchanges and refreshes the access token for your connected Google account. No mail, file or event content goes here.",
+              "to": "oauth2.googleapis.com"
+            }
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-google",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-google-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "8ceb55c6f83b64483a15534f7db092702175b53c56584139e68f37d845d91f55",
+        "size_bytes": 6320681
+      }
+    },
+    {
+      "name": "print",
+      "label": "Print",
+      "description": "Share the network's printers through Leo and keep what gets printed as knowledge.",
+      "icon": "printer.fill",
+      "version": "1.4.0",
+      "category": "package",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "print_advertise",
+            "print_capture",
+            "print_queue_suffix",
+            "print_retention_days"
+          ],
+          "sends": [
+            {
+              "classes": [
+                "files"
+              ],
+              "purpose": "Each print job is handed, unchanged, to the printer it was sent to. Nothing leaves the LAN.",
+              "to": "the printers on your own network"
+            }
+          ],
+          "graph_scopes": [
+            "knowledge:file-household"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-print",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-print-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "c2e7f766ca6bceba4a8b3552c4736a33e0d4820a9d3b54709abc8163eeb4409f",
+        "size_bytes": 8619144
+      }
+    },
+    {
+      "name": "research",
+      "label": "Research",
+      "description": "Deep research with a ledger of what is given, found and assumed — the front door to Leo's background research runs.",
+      "icon": "text.magnifyingglass",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "edition"
+          ],
+          "graph_scopes": [
+            "tasks:read",
+            "tasks:write",
+            "people:read",
+            "settings:read:edition"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-research",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-research-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "5397d00b1a05d1555154c719a509d29ea7e19534ee502f234f5b56681d0365f3",
+        "size_bytes": 5909422
+      }
+    },
+    {
+      "name": "flow",
+      "label": "Flow",
+      "description": "Workflows that run the same way every time — a graph of Leo's own tools, executed step by step, with every run written down.",
+      "icon": "point.3.filled.connected.trianglepath.dotted",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "model_catalog"
+          ],
+          "graph_scopes": [
+            "people:read"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-flow",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-flow-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "456eeac02ff5174015ad0295ccd98b743334a69e3a98d18b0e224c3b0432d85c",
+        "size_bytes": 7385799
+      }
+    },
+    {
+      "name": "apple",
+      "label": "Apple",
+      "description": "Apple ecosystem: Calendar, Reminders, iOS push, macOS bridge, and TestFlight.",
+      "icon": "apple",
+      "version": "1.4.0",
+      "category": "core",
+      "descriptor": {
+        "entitlements": {
+          "settings_read": [
+            "apns_bundle_id",
+            "apns_key_id",
+            "apns_key_path",
+            "apns_relay_secret",
+            "apns_relay_url",
+            "apns_sandbox",
+            "apns_team_id",
+            "apple_calendar",
+            "apple_mac",
+            "apple_reminders",
+            "apple_testflight",
+            "asc_issuer_id",
+            "asc_key_id",
+            "hub_relay_secret",
+            "mac_host",
+            "mac_password",
+            "mac_port",
+            "mac_user",
+            "notification_sensitivity",
+            "push_relay_url"
+          ],
+          "graph_scopes": [
+            "calendar:read",
+            "calendar:share",
+            "calendar:write",
+            "notifications:read",
+            "people:read",
+            "photos:read",
+            "reminders:read",
+            "reminders:share",
+            "reminders:write",
+            "satellites:operate",
+            "satellites:read",
+            "testflight:read",
+            "testflight:write"
+          ],
+          "satellite_capabilities": [
+            "browser",
+            "maps",
+            "simulator",
+            "ui"
+          ]
+        }
+      },
+      "hosted": {
+        "pkgname": "leo-apple",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-apple-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "b8193f11df8bb59efa6aaefd2b297de2f0891e57e758457a4b2424577d940c57",
+        "size_bytes": 7795728
+      }
+    },
+    {
+      "name": "leo-duckdb",
+      "label": "DuckDB for Leo packages",
+      "description": "libduckdb.so, for hosted packages whose binary links it.",
+      "icon": "shippingbox",
+      "version": "1.4.0",
+      "category": "core",
+      "shared": true,
+      "descriptor": {},
+      "hosted": {
+        "pkgname": "leo-duckdb",
+        "version": "1.4.0-1",
+        "arch": "x86_64",
+        "url": "https://github.com/TheBananaStand/leo-release/releases/download/packages/leo-duckdb-1.4.0-1-x86_64.pkg.tar.zst",
+        "sha256": "d1adb6eb5693a9bb24f9e8499c005c29df63cfcca167b9f904b9f38ed128d669",
+        "size_bytes": 20047037
       }
     }
   ]
