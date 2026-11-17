@@ -57,10 +57,10 @@ def main() -> int:
             continue
         name = p.get("name")
         pkgname = hosted.get("pkgname")
-        if pkgname != f"leo-package-{name}":
+        if pkgname != f"leo-{name}":
             errors.append(
                 f"{name}: hosted.pkgname is {pkgname!r}, expected "
-                f"'leo-package-{name}' — it would be served under one name and "
+                f"'leo-{name}' (since the 2026-11-15 rename) — it would be served under one name and "
                 f"land on disk under another"
             )
         expected = f"{pkgname}-{hosted.get('version')}-{hosted.get('arch')}.pkg.tar.zst"
