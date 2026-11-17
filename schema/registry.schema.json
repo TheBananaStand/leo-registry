@@ -28,6 +28,7 @@
         "label": { "type": "string", "minLength": 1 },
         "description": { "type": "string" },
         "icon": { "type": "string" },
+        "icon_url": { "type": "string", "format": "uri", "description": "Absolute https URL of this entry's artwork. The store-admin Worker ANNOTATES this at serve time and never stores it (services/store-admin/src/catalog.ts), so an entry copied from that catalog arrives carrying one. It is a real field here because the hub reads it — `RegistryEntry::icon_url` and `adopt_catalog_icon` fetch it once, materialize it into the hub's own icon ladder and never pass the third-party URL to a client. Absent is fine: the client draws the `icon` glyph instead. The `?v=` query is the artwork's `sha256[:16]`, which is what makes a changed icon re-adopt rather than sit cached." },
         "version": { "type": "string" },
         "author": { "type": "string" },
         "homepage": { "type": "string", "format": "uri" },
@@ -70,14 +71,30 @@
       "additionalProperties": false,
       "properties": {
         "kind": { "type": "string", "enum": ["tool", "app"] },
+        "name": { "type": "string", "description": "The package's own name as its descriptor states it. Redundant with the entry's `name` and carried anyway: a `descriptor.json` published verbatim has it, and refusing the entry over a duplicated string would cost an install target to buy nothing." },
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "details": { "type": "string", "description": "The long-form description shown on the package's own page." },
+        "setup_hint": { "type": "string", "description": "One paragraph telling the owner what to do before the package will work." },
+        "use_cases": { "type": "array", "items": { "type": "string" } },
+        "icon": { "type": "string" },
+        "category": { "type": "string", "enum": ["core", "package"], "description": "Mirrors `leo_sdk_decl::PackageCategory`, which is exactly these two." },
+        "host_api": { "type": "integer", "minimum": 0, "description": "The host API generation this package was built against." },
+        "owned_tables": { "type": "array", "items": { "type": "string" } },
+        "table_prefixes": { "type": "array", "items": { "type": "string" } },
+        "default_enabled": { "type": "boolean" },
+        "oauth_provider": { "type": "string", "description": "An OAuth provider (`google`) whose already-connected account the hub may hand this package a token for, instead of the package running a second consent flow of its own. Functional, not a hint: `McpMailProvider` and `McpCalendarProvider` are both constructed with it (leo-mcp/src/package.rs)." },
+        "access": { "type": "object", "description": "Who may reach this package, as `leo_sdk_decl::package_meta::Access` serialises it (`{\"mode\": \"admin_only\"}`). Shape deliberately NOT mirrored field-by-field here, for the reason the hosted block does not mirror the RESERVED name list: a third spelling of one fact is how the three come to disagree." },
+        "privileged_helper": { "type": "object", "description": "A root-owned helper with a closed verb set, as `leo_sdk_decl::borrowed::PrivilegedHelper` serialises it. Shape not mirrored here, same reason as `access`." },
+        "ui": { "description": "The package's UI tree. `Option<serde_json::Value>` in the hub, so any JSON — no constraint is honest here." },
         "fields": { "type": "array", "items": { "$ref": "#/$defs/field" } },
         "pages": { "type": "array", "items": { "$ref": "#/$defs/page" } },
         "migrations": { "type": "array", "items": { "type": "string" } },
         "mcp_server": { "type": "string" },
         "provides": {
           "type": "array",
-          "items": { "type": "string", "enum": ["wallpaper", "web_search", "tts"] },
-          "description": "Subsystems this package's MCP server stands in for. Tools are what a package gives Claude; a provider is what it gives Leo — the wallpaper generator, the web_search tool and the speech pipeline each call one. The linked server must answer that role's tool: wallpaper -> search_photos, web_search -> search, tts -> synthesize (voices optional). Filling a role is shown at consent and is part of the install digest, so a role cannot be added after approval without the digest moving."
+          "items": { "type": "string", "enum": ["wallpaper", "web_search", "tts", "mail", "image_gen", "calendar", "embeddings", "stt", "image_analysis"] },
+          "description": "Subsystems this package's MCP server stands in for. Tools are what a package gives Claude; a provider is what it gives Leo — the wallpaper generator, the web_search tool and the speech pipeline each call one. The linked server must answer that role's tool: wallpaper -> search_photos, web_search -> search, tts -> synthesize (voices optional). Filling a role is shown at consent and is part of the install digest, so a role cannot be added after approval without the digest moving.\n\nThis enum IS `leo_mcp::providers::ProviderRole::ALL` and must stay equal to it. It said [wallpaper, web_search, tts] until 2026-11-17 while the hub had known nine roles for some time, and `mail`, `image_gen` and `calendar` are each published by a live catalog entry and wired to a real provider (leo-mcp/src/package.rs) — so the narrow list refused three working entries. Nothing in the Rust tree reads this file, so no guard catches the next such drift; widen it in the same commit that adds a variant."
         },
         "entitlements": { "$ref": "#/$defs/entitlements" },
         "app": { "$ref": "#/$defs/appspec" }
@@ -161,8 +178,8 @@
     },
     "appspec": {
       "type": "object",
-      "additionalProperties": false,
-      "description": "App package: a standalone binary built from git on the host and run as a subprocess (NOT linked into Leo).",
+      "description": "App package: a standalone binary built from git on the host and run as a subprocess (NOT linked into Leo).\n\n`additionalProperties` is true here, which is the one place in this schema that is so, and it is a measured decision rather than laziness. The hub's `AppSpec` has fields this block does not name (`supervised`, `socket`, `mounts`, `graph_routes`) and a real published entry — `spaces` — carries two the hub does not have AT ALL (`webapp`, `base_path`), which serde drops on the way in. Refusing the entry over a field nothing reads would cost an install target and buy no safety, since every field that grants anything lives in `descriptor.entitlements` and is still closed. Named fields keep their types; unknown ones pass.",
+      "additionalProperties": true,
       "required": ["repo", "bin"],
       "properties": {
         "repo": { "type": "string", "format": "uri" },
@@ -170,7 +187,9 @@
         "branch": { "type": "string", "description": "Fallback when `rev` is absent — a mutable reference the author can move after review. Deprecated for new entries." },
         "build": { "type": "string", "description": "Build command run in the clone (default: cargo build --release)." },
         "bin": { "type": "string", "description": "Path to the built binary, relative to the clone root." },
-        "port": { "type": "integer", "minimum": 0, "description": "Fixed port, or 0 to assign a free one at spawn." }
+        "port": { "type": "integer", "minimum": 0, "description": "Fixed port, or 0 to assign a free one at spawn." },
+        "supervised": { "type": "boolean", "description": "The init system owns this process: the hub neither fetches, builds nor spawns it, it adopts whatever answers on `socket`. How a first-party package hosted by `leo-package-host` presents itself." },
+        "socket": { "type": "string", "description": "The Unix socket the app serves the package protocol on. Preferred over `port` — the kernel attests the peer." }
       }
     },
     "field": {
@@ -185,7 +204,7 @@
           "enum": ["text", "password", "number", "boolean", "select", "file"]
         },
         "required": { "type": "boolean" },
-        "options": { "type": "array", "items": { "type": "string" } }
+        "options": { "type": ["array", "null"], "items": { "type": "string" }, "description": "Null is accepted because the hub's own type is `Option<Vec<String>>` and `serde_json` writes an unset one as `null`, so a descriptor serialised by the hub carries nulls here." }
       }
     },
     "page": {
@@ -197,7 +216,8 @@
         "label": { "type": "string" },
         "icon": { "type": "string" },
         "sidebar_group": { "type": "string" },
-        "settings_page": { "type": "boolean" }
+        "settings_page": { "type": "boolean" },
+        "show_in_nav": { "type": "boolean", "description": "Whether the page is listed in nav surfaces by default (`PageSpec::show_in_nav`, default true). Reachable via Cmd+K either way." }
       }
     },
     "bundle": {

@@ -2,7 +2,15 @@ name: Deploy to Cloudflare Pages
 
 # Publishes the catalog to https://leo-registry.pages.dev on every push to main.
 # The public/ directory is staged here (it's a gitignored build artifact) from
-# the repo's registry.json + schema/ + bundles/, then deployed via wrangler.
+# the repo's registry.json + schema/ + bundles/ + icons/, then deployed via
+# wrangler.
+#
+# icons/ is staged because entries carry an absolute `icon_url` pointing at
+# /icons/<name>.png on THIS host. They used to point at the store-admin
+# Worker, which serves artwork out of its own D1 and is the only place those
+# PNGs existed — so a hub reading this catalog instead fetched nothing and fell
+# back to drawing the `icon` glyph. Shipping the bytes beside the catalog that
+# names them is what makes this catalog self-contained.
 
 on:
   push:
@@ -11,6 +19,7 @@ on:
       - registry.json
       - schema/**
       - bundles/**
+      - icons/**
       - .github/workflows/deploy.yml
   workflow_dispatch:
 
@@ -29,10 +38,11 @@ jobs:
 
       - name: Stage public directory
         run: |
-          mkdir -p public/bundles
+          mkdir -p public/bundles public/icons
           cp registry.json public/
           [ -d schema ] && cp -r schema public/ || true
           [ -d bundles ] && cp -r bundles/. public/bundles/ || true
+          [ -d icons ] && cp -r icons/. public/icons/ || true
           printf '%s\n' 'leo-registry — see /registry.json' > public/index.txt
 
       - name: Deploy to Cloudflare Pages
