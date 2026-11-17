@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-17T16:44:19Z",
+  "updated_at": "2026-11-17T22:20:54Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -4277,6 +4277,51 @@
           ]
         }
       }
+    },
+    {
+      "name": "access",
+      "label": "Access",
+      "description": "Reach Leo from anywhere — local network, VPN, or your own domain.",
+      "icon": "globe-lock",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "admin",
+      "label": "Admin",
+      "description": "Manage the people on this hub and the box under it.",
+      "icon": "shield-user",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "agent",
+      "label": "Agent",
+      "description": "How Leo is configured to think.",
+      "icon": "cog-6-tooth",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "autopilot",
+      "label": "Autopilot",
+      "description": "Projects tracked by the evidence that proves them done.",
+      "icon": "folder",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
+    },
+    {
+      "name": "fleet",
+      "label": "Fleet",
+      "description": "Live topology + SSH reach across every machine Leo runs on.",
+      "icon": "server-stack",
+      "version": "1.0.0",
+      "category": "core",
+      "descriptor": {}
     }
   ]
 }
