@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-17T22:20:54Z",
+  "updated_at": "2026-11-24T22:35:00Z",
   "packages": [
     {
       "name": "agent_memory",
@@ -4322,6 +4322,209 @@
       "version": "1.0.0",
       "category": "core",
       "descriptor": {}
+    },
+    {
+      "name": "today",
+      "label": "Today",
+      "description": "What today holds, at a glance — the next thing, what is due, what is worth knowing.",
+      "icon": "sun.max",
+      "version": "0.1.0",
+      "author": "TheBananaStand",
+      "homepage": "https://github.com/TheBananaStand/leo-today",
+      "category": "package",
+      "descriptor": {
+        "name": "today",
+        "label": "Today",
+        "description": "What today holds, at a glance — the next thing, what is due, what is worth knowing.",
+        "details": "One page assembled from whatever this hub can answer: the calendar, reminders and the feed. Every block is gated on having something in it, so the page is as long as the day is busy. Each source is fetched on its own — one that fails or times out leaves its block off the page and a line at the foot saying so, rather than taking the page down.",
+        "setup_hint": "Nothing to set up. Enable it and open Today.",
+        "use_cases": [
+          "What does my day look like?",
+          "What's overdue?"
+        ],
+        "icon": "sun.max",
+        "category": "package",
+        "kind": "app",
+        "default_enabled": false,
+        "pages": [
+          {
+            "path": "today",
+            "label": "Today",
+            "icon": "sun.max",
+            "show_in_nav": true
+          }
+        ],
+        "ui": {
+          "today": {
+            "kind": "html",
+            "html": "<div id=\"today\" subset=\"15\" class=\"h-full flex bg-canvas\">\n\n  <!-- One place instead of five apps. A model sorts everything the hub knows\n       — mail, calendar, reminders, the house, the hub itself — into SUBJECTS,\n       so a message, a reminder and a meeting about the same thing sit\n       together; every row opens the app it came from. Above it, a cached\n       summary of what needs you and what is coming, over the sky outside. -->\n\n  <template name=\"piece-body\">\n    <div class=\"flex items-center gap-3 flex-1 min-w-0\">\n      <img icon=\"{r.icon}\" alt=\"\" tint=\"{r.tint}\" class=\"size-4 shrink-0 text-tint\">\n      <span if=\"!r.dim\" class=\"flex-1 min-w-0 text-sm truncate\">{r.what}</span>\n      <span if=\"r.dim\" class=\"flex-1 min-w-0 text-sm text-muted truncate\">{r.what}</span>\n      <span if=\"r.late\" class=\"shrink-0 px-2 py-0.5 rounded-full text-xs font-medium bg-danger text-danger tabular-nums\">{r.when}</span>\n      <span if=\"!r.late\" class=\"shrink-0 text-xs text-muted tabular-nums\">{r.when}</span>\n    </div>\n  </template>\n\n  <!-- One piece of a subject. Pressing it goes to the thing itself, in the\n       app that owns it. Done / Later / Not for me are on the row's menu —\n       right-click, long press, swipe — not on its face. -->\n  <template name=\"piece\">\n    <li id=\"r-{r.id}\" class=\"flex flex-col\">\n      <a if=\"r.route\" id=\"open-{r.id}\" action=\"open\" args=\"route={r.route}\"\n         class=\"flex items-center min-h-11 px-4\">\n        <use template=\"piece-body\"></use>\n      </a>\n      <div if=\"!r.route\" class=\"flex items-center min-h-11 px-4\">\n        <use template=\"piece-body\"></use>\n      </div>\n      <span if=\"!r.last\" class=\"ml-11 border-t\"></span>\n      <menu>\n        <a id=\"m-done-{r.id}\" action=\"done\" args=\"id={r.iid} what={r.what}\" swipe=\"trailing\">Done</a>\n        <a id=\"m-later-{r.id}\" action=\"later\" args=\"id={r.iid} what={r.what}\" swipe=\"leading\">Later</a>\n        <a id=\"m-mute-{r.id}\" action=\"mute\" args=\"id={r.iid} what={r.what}\">Not for me</a>\n        <a id=\"m-ask-{r.id}\" action=\"ask\" args=\"text='What should I do about this — {r.what}'\">Ask about this</a>\n      </menu>\n    </li>\n  </template>\n\n  <!-- A subject. Its name is the person's to change; and it can go looking —\n       a sweep searches everything the hub can search for what else belongs\n       here, and OFFERS what it finds. Nothing is filed without a press. -->\n  <template name=\"subject\">\n    <article id=\"sub-{s.id}\" tint=\"{s.tint}\" class=\"flex flex-col rounded-xl bg-surface overflow-hidden\">\n      <div class=\"flex items-start gap-3 px-4 pt-4 pb-2\">\n        <span class=\"size-9 shrink-0 flex items-center justify-center rounded-lg bg-tint-wash\">\n          <img icon=\"{s.icon}\" alt=\"\" class=\"size-4 text-tint\">\n        </span>\n        <div class=\"flex flex-col gap-0.5 min-w-0 flex-1\">\n          <h3 class=\"text-base font-semibold truncate\">{s.title}</h3>\n          <span if=\"s.state\" class=\"text-xs text-secondary line-clamp-2\">{s.state}</span>\n        </div>\n        <div if=\"s.real\" class=\"flex items-center shrink-0 -mr-2\">\n          <span if=\"s.sweeping\" class=\"px-2 text-xs text-secondary animate-pulse\">Sweeping…</span>\n          <a if=\"!s.sweeping\" id=\"sweep-{s.id}\" action=\"sweep\" args=\"id={s.id}\"\n             aria-label=\"Sweep for anything else that belongs in {s.title}\"\n             class=\"flex items-center gap-1.5 min-h-8 px-2 rounded-full text-xs font-medium text-secondary\">\n            <img icon=\"sparkle.magnifyingglass\" alt=\"\" class=\"size-3.5\">\n            <span>Sweep</span>\n          </a>\n          <a id=\"edit-{s.id}\" select=\"edit={s.id}\" aria-label=\"Rename {s.title}\"\n             class=\"size-8 flex items-center justify-center rounded-full\">\n            <img icon=\"pencil\" alt=\"\" class=\"size-3.5 text-muted\">\n          </a>\n        </div>\n        <span if=\"!s.real\" class=\"shrink-0 pt-1 text-xs text-muted tabular-nums\">{s.note}</span>\n      </div>\n\n      <form if=\"$.edit == {s.id}\" id=\"rename-{s.id}\" action=\"rename\" args=\"id={s.id} title={$.form.title}\"\n            class=\"flex items-center gap-2 px-4 pb-3\">\n        <input id=\"rename-field-{s.id}\" bind=\"form.title\" value=\"{s.title}\" required autofocus\n               placeholder=\"Name this subject\" class=\"flex-1 max-w-sm h-9 min-w-0\">\n        <button id=\"rename-save-{s.id}\" action=\"rename\" args=\"id={s.id} title={$.form.title}\"\n                class=\"shrink-0 h-9 px-3 rounded-lg bg-accent text-on-accent\">Rename</button>\n        <a id=\"rename-close-{s.id}\" select=\"edit=\" shortcut=\"esc\"\n           class=\"shrink-0 min-h-9 px-2 flex items-center rounded-lg text-xs font-medium text-secondary\">Close</a>\n      </form>\n\n      <ul class=\"flex flex-col pb-1\">\n        <use template=\"piece\" each=\"r in s.rows\"></use>\n      </ul>\n\n      <div if=\"s.found\" id=\"found-{s.id}\" class=\"flex flex-col pb-2 border-t\">\n        <span class=\"px-4 pt-3 pb-1 text-xs font-semibold text-secondary uppercase\">Found by the sweep</span>\n        <div each=\"f in s.found\" id=\"f-{f.id}\" class=\"flex items-center gap-3 min-h-12 px-4\">\n          <img icon=\"{f.icon}\" alt=\"\" class=\"size-4 shrink-0 text-muted\">\n          <a id=\"f-open-{f.id}\" action=\"open\" args=\"route={f.route}\" class=\"flex flex-col gap-0.5 flex-1 min-w-0 py-1.5\">\n            <span class=\"text-sm truncate\">{f.what}</span>\n            <span class=\"text-xs text-muted truncate\">{f.source} · {f.why}</span>\n          </a>\n          <a id=\"f-keep-{f.id}\" action=\"keep\" args=\"id={s.id} key={f.key}\"\n             class=\"shrink-0 min-h-8 px-3 flex items-center rounded-full text-xs font-medium bg-elevated\">Keep</a>\n          <a id=\"f-drop-{f.id}\" action=\"drop\" args=\"id={s.id} key={f.key}\" aria-label=\"Not part of this\"\n             class=\"shrink-0 size-8 flex items-center justify-center rounded-full\">\n            <img icon=\"xmark\" alt=\"\" class=\"size-3.5 text-muted\">\n          </a>\n        </div>\n      </div>\n      <span if=\"s.sweep_note\" class=\"px-4 pb-3 text-xs text-muted line-clamp-2\">{s.sweep_note}</span>\n    </article>\n  </template>\n\n  <template name=\"moment\">\n    <li id=\"m-{m.id}\" class=\"flex gap-3\">\n      <span class=\"w-12 shrink-0 pt-0.5 text-right text-xs text-muted tabular-nums\">{m.time}</span>\n      <!-- The dot sits on the centre of the row's first line of text, not at\n           the row's top edge: a 6pt lead-in above it — a piece of the spine\n           on every row but the first — puts its middle on the text's. -->\n      <div class=\"flex flex-col items-center shrink-0 w-3\">\n        <span if=\"m.first\" class=\"h-1.5\"></span>\n        <span if=\"!m.first\" class=\"h-1.5 border-l border-muted\"></span>\n        <span if=\"!m.free\" tint=\"{m.tint}\" class=\"size-2.5 rounded-full bg-tint\"></span>\n        <span if=\"m.free\" class=\"size-2.5 rounded-full border-2 border-muted\"></span>\n        <!-- `bg-elevated` is one step off `bg-surface` and vanishes entirely\n             once the card is drawn as glass over a wallpaper — measured on\n             the Mac, where the rail read as loose dots. A role border has a\n             colour of its own and survives the material. -->\n        <span if=\"!m.last\" class=\"flex-1 border-l border-muted\"></span>\n      </div>\n      <div class=\"flex flex-col gap-1 min-w-0 flex-1 pb-4\">\n        <span if=\"m.free\" class=\"text-xs text-muted italic\">{m.what}</span>\n        <div if=\"!m.free\" class=\"flex items-center gap-2 min-w-0\">\n          <span if=\"!m.done\" class=\"flex-1 min-w-0 text-sm truncate\">{m.title}</span>\n          <span if=\"m.done\" class=\"flex-1 min-w-0 text-sm text-muted truncate\">{m.title}</span>\n          <span if=\"m.live\" class=\"shrink-0 px-2 py-0.5 rounded-full text-xs font-medium bg-accent-wash text-accent\">Now</span>\n        </div>\n        <div if=\"m.leave\" class=\"flex items-center gap-1.5\">\n          <img icon=\"figure.walk\" alt=\"\" tint=\"amber\" class=\"size-3 shrink-0 text-tint\">\n          <span tint=\"amber\" class=\"text-xs text-tint tabular-nums\">{m.leave}</span>\n        </div>\n        <div if=\"m.tight\" class=\"flex items-center gap-1.5\">\n          <img icon=\"exclamationmark.triangle\" alt=\"\" tint=\"amber\" class=\"size-3 shrink-0 text-tint\">\n          <span tint=\"amber\" class=\"text-xs text-tint line-clamp-2\">{m.tight}</span>\n        </div>\n      </div>\n      <menu>\n        <a id=\"ev-ask-{m.id}\" action=\"ask\" args=\"text='What is this about — {m.title}'\">Ask about this</a>\n      </menu>\n    </li>\n  </template>\n\n\n  <!-- ---------- SIDEBAR: the apps you would otherwise open, as counts;\n       the subjects, as a list; the clock side of the day. ---------- -->\n  <aside id=\"side\" class=\"hidden md:flex flex-col gap-6 w-72 shrink-0 p-4 overflow-y-auto border-r\">\n    <div class=\"grid grid-cols-2 gap-2\">\n      <a each=\"t in tiles\" id=\"tile-{t.id}\" action=\"open\" args=\"route={t.route}\" tint=\"{t.tint}\"\n         class=\"flex flex-col gap-3 p-3 rounded-xl bg-surface\">\n        <div class=\"flex items-center justify-between\">\n          <img icon=\"{t.icon}\" alt=\"\" class=\"size-5 text-tint\">\n          <span class=\"text-xl font-bold tabular-nums\">{t.n}</span>\n        </div>\n        <span class=\"text-xs font-medium text-secondary\">{t.label}</span>\n      </a>\n    </div>\n\n    <nav if=\"subjects\" id=\"nav\" class=\"flex flex-col gap-1\">\n      <h2 class=\"px-2 pb-1 text-xs font-semibold text-secondary uppercase\">Subjects</h2>\n      <a id=\"nav-all\" select=\"sub=\" selected=\"sub=\"\n         class=\"flex items-center gap-3 min-h-9 px-2 rounded-lg selected:bg-elevated\">\n        <img icon=\"square.stack\" alt=\"\" class=\"size-4 text-muted\">\n        <span class=\"flex-1 min-w-0 text-sm truncate\">Everything</span>\n        <span class=\"text-xs text-muted tabular-nums\">{all_note}</span>\n      </a>\n      <a each=\"s in subjects\" id=\"nav-{s.id}\" select=\"sub={s.id}\" selected=\"sub={s.id}\" tint=\"{s.tint}\"\n         class=\"flex items-center gap-3 min-h-9 px-2 rounded-lg selected:bg-elevated\">\n        <span class=\"size-2 mx-1 shrink-0 rounded-full bg-tint\"></span>\n        <span class=\"flex-1 min-w-0 text-sm truncate\">{s.title}</span>\n        <span class=\"text-xs text-muted tabular-nums\">{s.count}</span>\n      </a>\n    </nav>\n\n    <section if=\"rail\" id=\"day\" class=\"flex flex-col gap-3\">\n      <h2 class=\"text-xs font-semibold text-secondary uppercase\">Today</h2>\n      <ul class=\"flex flex-col p-4 pb-0 rounded-xl bg-surface\">\n        <use template=\"moment\" each=\"m in rail\"></use>\n      </ul>\n    </section>\n\n    <a if=\"now\" id=\"now\" action=\"open\" args=\"route={now.route}\"\n       class=\"flex flex-col gap-1 p-3 rounded-xl bg-surface\">\n      <div class=\"flex items-center gap-2\">\n        <span class=\"text-xs font-semibold text-secondary uppercase\">{now.lead}</span>\n        <span class=\"text-xs font-semibold tabular-nums\">{now.time}</span>\n      </div>\n      <span class=\"text-sm line-clamp-2\">{now.title}</span>\n    </a>\n    <span if=\"gaps_line\" id=\"gaps\" class=\"px-2 text-xs text-muted line-clamp-2\">{gaps_line}</span>\n  </aside>\n\n  <!-- ---------- MAIN: the hero, then the day by subject ---------- -->\n  <main id=\"main\" class=\"flex-1 min-w-0 overflow-y-auto\">\n    <div class=\"flex flex-col gap-5 w-full max-w-4xl mx-auto px-6 py-6\">\n\n    <!-- ===================== THE HERO =====================\n         The sky outside, moving, and over it the two things the page is\n         opened for: what needs you, and what is coming. The summary is\n         cached and says how old it is; \"Not right?\" teaches it. -->\n    <section id=\"hero\" class=\"relative flex flex-col rounded-xl overflow-hidden bg-surface\">\n      <native ref=\"webPane\" props=\"route='/p/today/sky'\" class=\"absolute inset-0\">\n        <div tint=\"blue\" class=\"h-full bg-tint-wash\"></div>\n      </native>\n      <div class=\"relative z-10 flex flex-col gap-6 p-6\">\n        <div class=\"flex items-start gap-4\">\n          <div class=\"flex flex-col gap-1 min-w-0 flex-1\">\n            <h1 class=\"text-3xl font-bold truncate\">{greeting}</h1>\n            <span class=\"text-sm text-secondary truncate\">{date_line}</span>\n          </div>\n          <div if=\"weather\" class=\"flex flex-col items-end gap-1 shrink-0\">\n            <div class=\"flex items-center gap-2\">\n              <img icon=\"{weather.symbol}\" alt=\"\" tint=\"{weather.tint}\" class=\"size-6 text-tint\">\n              <span class=\"text-3xl font-bold tabular-nums\">{weather.temp}</span>\n            </div>\n            <span class=\"text-xs text-secondary tabular-nums\">{weather.range}</span>\n          </div>\n        </div>\n\n        <div if=\"brief\" id=\"brief\" class=\"grid gap-x-10 gap-y-5 md:grid-cols-[1.3fr_1fr]\">\n          <div if=\"brief.focus\" class=\"flex flex-col gap-2 min-w-0\">\n            <h2 class=\"text-xs font-semibold text-secondary uppercase\">Focus</h2>\n            <span each=\"f in brief.focus\" id=\"bf-{f.id}\" class=\"text-base font-medium\">{f.text}</span>\n          </div>\n          <div if=\"brief.next\" class=\"flex flex-col gap-2 min-w-0\">\n            <h2 class=\"text-xs font-semibold text-secondary uppercase\">Coming up</h2>\n            <span each=\"n in brief.next\" id=\"bn-{n.id}\" class=\"text-sm text-secondary\">{n.text}</span>\n          </div>\n        </div>\n        <div if=\"brief_pending\" id=\"brief-pending\" class=\"flex flex-col gap-2\">\n          <span class=\"h-5 w-80 rounded bg-elevated animate-pulse\"></span>\n          <span class=\"text-xs text-secondary\">Reading your day…</span>\n        </div>\n\n        <div class=\"flex flex-wrap items-center gap-x-1 gap-y-1\">\n          <a if=\"!$.fixing\" id=\"wrong\" select=\"fixing=1\" shortcut=\"w\"\n             class=\"flex items-center min-h-8 px-3 -ml-3 rounded-full text-xs font-medium text-secondary\">Not right?</a>\n          <a if=\"$.fixing\" id=\"wrong-close\" select=\"fixing=\" shortcut=\"esc\"\n             class=\"flex items-center min-h-8 px-3 -ml-3 rounded-full text-xs font-medium text-secondary\">Close</a>\n          <a if=\"brief.age\" id=\"rewrite\" action=\"rewrite\" aria-label=\"Write it again\"\n             class=\"flex items-center gap-1.5 min-h-8 px-2 rounded-full text-xs text-secondary tabular-nums\">\n            <img icon=\"arrow.clockwise\" alt=\"\" class=\"size-3\">\n            <span>{brief.age}</span>\n          </a>\n          <span if=\"brief.stale\" class=\"text-xs text-secondary animate-pulse\">rewriting…</span>\n          <span if=\"corrections_note\" class=\"ml-auto shrink-0 text-xs text-secondary\">{corrections_note}</span>\n        </div>\n\n        <div if=\"$.fixing\" id=\"fixing\" class=\"flex flex-col gap-2 p-3 rounded-lg bg-elevated\">\n          <form id=\"fix\" action=\"correct\" args=\"text={$.form.fix}\" class=\"flex items-center gap-2\">\n            <input id=\"fix-field\" bind=\"form.fix\" required autofocus\n                   placeholder=\"What did it get wrong? It will remember.\"\n                   class=\"flex-1 max-w-2xl h-10 min-w-0\">\n            <button id=\"fix-save\" action=\"correct\" args=\"text={$.form.fix}\"\n                    disabled=\"!$.form.fix\"\n                    class=\"shrink-0 h-10 px-4 rounded-lg bg-accent text-on-accent\">Save</button>\n          </form>\n          <div if=\"corrections\" class=\"flex flex-col\">\n            <div each=\"c in corrections\" id=\"c-{c.id}\" class=\"flex items-center gap-1 min-h-9 px-1\">\n              <span class=\"min-w-0 text-sm text-secondary line-clamp-2\">{c.text}</span>\n              <a id=\"unfix-{c.id}\" action=\"uncorrect\" args=\"id={c.id}\" aria-label=\"Forget this rule\"\n                 class=\"shrink-0 size-9 flex items-center justify-center rounded-full\">\n                <img icon=\"xmark\" alt=\"\" class=\"size-3.5 text-muted\">\n              </a>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>\n\n    <div if=\"nothing_worked\" id=\"unreachable\" class=\"flex flex-col items-center gap-3 py-14 rounded-xl bg-surface\">\n      <img icon=\"wifi.exclamationmark\" alt=\"\" tint=\"amber\" class=\"size-10 text-tint\">\n      <span class=\"text-lg font-semibold\">Couldn't put today together</span>\n      <span class=\"max-w-prose px-6 text-sm text-muted text-center\">{why}</span>\n      <a id=\"retry\" action=\"refresh\" shortcut=\"r\"\n         class=\"mt-1 h-10 px-5 flex items-center rounded-lg text-sm font-semibold bg-accent text-on-accent\">Try again</a>\n    </div>\n\n\n      <div if=\"undo\" id=\"undo\" class=\"flex items-center gap-3 min-h-10 pl-4 pr-1 rounded-xl bg-surface\">\n        <span class=\"flex-1 min-w-0 text-xs text-secondary truncate\">{undo}</span>\n        <a id=\"undo-press\" action=\"undo\" shortcut=\"z\"\n           class=\"shrink-0 min-h-8 px-3 flex items-center rounded-full text-xs font-semibold text-accent\">Undo</a>\n      </div>\n\n      <!-- Everything, or the one subject picked in the sidebar. Two stamps\n           because `if` has no \"or\": one asks \"nothing picked\", the other\n           asks each subject whether it is the one. -->\n      <use template=\"subject\" each=\"s in subjects\" if=\"!$.sub\"></use>\n      <use template=\"subject\" each=\"s in subjects\" if=\"$.sub == {s.id}\"></use>\n\n      <div if=\"zero\" id=\"zero\" class=\"flex flex-col items-center gap-2 py-14 rounded-xl bg-surface\">\n        <img icon=\"checkmark.circle\" alt=\"\" tint=\"green\" class=\"size-10 text-tint\">\n        <span class=\"text-lg font-semibold\">Nothing needs you</span>\n      </div>\n      <span if=\"later_note\" class=\"px-1 text-xs text-muted\">{later_note}</span>\n\n      <section if=\"!nothing_worked\" id=\"ask\" class=\"flex flex-col gap-3\">\n        <h2 class=\"text-xs font-semibold text-secondary uppercase\">Ask</h2>\n        <div class=\"flex flex-col gap-3 p-3 rounded-xl bg-surface\">\n          <div if=\"asking\" id=\"asking\" class=\"flex items-center gap-2 min-h-8 px-1\">\n            <span class=\"size-1.5 shrink-0 rounded-full bg-accent animate-pulse\"></span>\n            <span class=\"flex-1 min-w-0 text-sm text-secondary truncate\">{asking}</span>\n          </div>\n          <div if=\"answer\" id=\"answer\" class=\"flex flex-col gap-2 px-1\">\n            <div class=\"flex items-start gap-2\">\n              <span class=\"flex-1 min-w-0 text-sm font-semibold line-clamp-2\">{answer.question}</span>\n              <a id=\"clear-answer\" action=\"clear\" aria-label=\"Clear this answer\"\n                 class=\"shrink-0 size-8 -mr-2 -mt-1 flex items-center justify-center rounded-full\">\n                <img icon=\"xmark\" alt=\"\" class=\"size-3 text-muted\">\n              </a>\n            </div>\n            <markdown if=\"answer.text\" class=\"text-sm select-text\">{answer.text}</markdown>\n            <span if=\"answer.failed\" class=\"text-xs text-muted\">Couldn't answer — {answer.failed}</span>\n          </div>\n          <form id=\"compose\" action=\"ask\" args=\"text={$.form.message}\" class=\"flex items-center gap-2\">\n            <input id=\"ask-field\" bind=\"form.message\" placeholder=\"Ask about today\" shortcut=\"/\" required\n                   class=\"flex-1 h-10 min-w-0\">\n            <button id=\"ask-send\" action=\"ask\" args=\"text={$.form.message}\"\n                    disabled=\"!$.form.message\"\n                    class=\"shrink-0 h-10 px-4 rounded-lg bg-accent text-on-accent\">Ask</button>\n          </form>\n        </div>\n      </section>\n\n    </div>\n  </main>\n</div>\n",
+            "title": "Today",
+            "refreshOn": [
+              "reminders",
+              "feed",
+              "calendar",
+              "email",
+              "notifications",
+              "today"
+            ],
+            "actions": {
+              "ask": {
+                "kind": "packageAction",
+                "name": "ask",
+                "args": {
+                  "text": "{args.text}"
+                },
+                "refresh": "reload"
+              },
+              "clear": {
+                "kind": "packageAction",
+                "name": "clear",
+                "refresh": "reload"
+              },
+              "done": {
+                "kind": "packageAction",
+                "name": "done",
+                "args": {
+                  "id": "{args.id}",
+                  "what": "{args.what}"
+                },
+                "refresh": "reload"
+              },
+              "later": {
+                "kind": "packageAction",
+                "name": "later",
+                "args": {
+                  "id": "{args.id}",
+                  "what": "{args.what}"
+                },
+                "refresh": "reload"
+              },
+              "mute": {
+                "kind": "packageAction",
+                "name": "mute",
+                "args": {
+                  "id": "{args.id}",
+                  "what": "{args.what}"
+                },
+                "refresh": "reload"
+              },
+              "undo": {
+                "kind": "packageAction",
+                "name": "undo",
+                "refresh": "reload"
+              },
+              "rename": {
+                "kind": "packageAction",
+                "name": "rename",
+                "args": {
+                  "id": "{args.id}",
+                  "title": "{args.title}"
+                },
+                "refresh": "reload"
+              },
+              "sweep": {
+                "kind": "packageAction",
+                "name": "sweep",
+                "args": {
+                  "id": "{args.id}"
+                },
+                "refresh": "reload"
+              },
+              "keep": {
+                "kind": "packageAction",
+                "name": "keep",
+                "args": {
+                  "id": "{args.id}",
+                  "key": "{args.key}"
+                },
+                "refresh": "reload"
+              },
+              "drop": {
+                "kind": "packageAction",
+                "name": "drop",
+                "args": {
+                  "id": "{args.id}",
+                  "key": "{args.key}"
+                },
+                "refresh": "reload"
+              },
+              "open": {
+                "kind": "openWindow",
+                "route": "{args.route}"
+              },
+              "rewrite": {
+                "kind": "packageAction",
+                "name": "rewrite",
+                "refresh": "reload"
+              },
+              "correct": {
+                "kind": "packageAction",
+                "name": "correct",
+                "args": {
+                  "text": "{args.text}"
+                },
+                "refresh": "reload"
+              },
+              "uncorrect": {
+                "kind": "packageAction",
+                "name": "uncorrect",
+                "args": {
+                  "id": "{args.id}"
+                },
+                "refresh": "reload"
+              },
+              "refresh": {
+                "method": "GET",
+                "path": "/api/packages/today/ui/data",
+                "refresh": "reload"
+              }
+            }
+          }
+        },
+        "fields": [
+          {
+            "key": "today_graph_token",
+            "label": "Graph token",
+            "field_type": "password",
+            "required": false
+          }
+        ],
+        "entitlements": {
+          "graph_scopes": [
+            "calendar:read",
+            "reminders:read",
+            "feed:read",
+            "hub_tools:read",
+            "hub_tools:invoke",
+            "inference:messages",
+            "surfaces:refresh",
+            "finance:read",
+            "costs:read",
+            "locations:read",
+            "people:read",
+            "scheduler:read",
+            "releases:read"
+          ],
+          "settings_read": [
+            "today_graph_token"
+          ],
+          "inference": {
+            "classes": [
+              "prompts"
+            ],
+            "purpose": "to answer questions about what is on the person's Today screen"
+          }
+        },
+        "app": {
+          "repo": "https://github.com/TheBananaStand/leo-today",
+          "branch": "main",
+          "build": "make",
+          "bin": "leo-today",
+          "port": 8477,
+          "supervised": false,
+          "rev": "6d4d1f1bc9771c2e597d9ecf35ac577012fa83a0"
+        }
+      }
     }
   ]
 }
